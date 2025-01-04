@@ -20,6 +20,7 @@ internal static class GetFilesResultMapper
     
     private static FolderDto ToDto(this Folder folder)
     {
-        return new FolderDto(new Guid(folder.Id), folder.Name);
+        var files = folder.Files.Select(ToDto).ToArray();
+        return new FolderDto(new Guid(folder.Id), folder.Name, files);
     }
 }

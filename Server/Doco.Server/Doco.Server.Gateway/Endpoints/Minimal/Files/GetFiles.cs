@@ -1,4 +1,5 @@
-﻿using Doco.Server.Gateway.Services;
+﻿using Doco.Server.Gateway.Models.Responses;
+using Doco.Server.Gateway.Services.Internal;
 
 namespace Doco.Server.Gateway.Endpoints.Minimal.Files;
 
@@ -15,7 +16,7 @@ internal static partial class FileEndpoints
     /// </summary>
     /// <param name="getFilesService"></param>
     /// <param name="ct"></param>
-    private static Task GetFiles(
+    private static Task<GetFilesResultDto> GetFiles(
         IGetFilesService getFilesService,
         CancellationToken ct)
         => getFilesService.GetFilesAsync(ct);

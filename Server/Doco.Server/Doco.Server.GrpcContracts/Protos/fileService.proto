@@ -26,6 +26,7 @@ message DownloadFileChunk {
 message UploadFileChunk {
   string fileName = 1;
   bytes bytes = 2;
+  string contentType = 3;
 }
 
 message File {

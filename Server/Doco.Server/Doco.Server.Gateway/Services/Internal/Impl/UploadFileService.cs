@@ -5,7 +5,7 @@ using Google.Protobuf;
 using Grpc.Core;
 using Grpc.Net.Client;
 
-namespace Doco.Server.Gateway.Services.Impl;
+namespace Doco.Server.Gateway.Services.Internal.Impl;
 
 internal sealed class UploadFileService : IUploadFileService
 {
@@ -53,11 +53,16 @@ internal sealed class UploadFileService : IUploadFileService
                 string fileName = chunkIndex is 0
                     ? file.FileName
                     : string.Empty;
+                
+                string contentType = chunkIndex is 0
+                    ? file.ContentType
+                    : string.Empty;
 
                 var chunk = new UploadFileChunk
                 {
                     Bytes = ByteString.CopyFrom(_buffer, 0, readCount),
                     FileName = fileName,
+                    ContentType = contentType
                 };
 
                 await call.RequestStream.WriteAsync(chunk, ct);
@@ -78,7 +83,7 @@ internal sealed class UploadFileService : IUploadFileService
         catch (RpcException rpcEx)
         {
             throw new Exception(
-                message: $"analytics export service exception: {rpcEx.Status.Detail}",
+                message: $"file service exception: {rpcEx.Status.Detail}",
                 innerException: rpcEx.Status.DebugException);
         }
     }

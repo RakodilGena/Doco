@@ -4,7 +4,7 @@ using FileService;
 using Grpc.Core;
 using Grpc.Net.Client;
 
-namespace Doco.Server.Gateway.Services.Impl;
+namespace Doco.Server.Gateway.Services.Internal.Impl;
 
 internal sealed class DownloadFileService : IDownloadFileService
 {
@@ -81,7 +81,7 @@ internal sealed class DownloadFileService : IDownloadFileService
         catch (RpcException rpcEx)
         {
             throw new Exception(
-                message: $"analytics export service exception: {rpcEx.Status.Detail}",
+                message: $"file service exception: {rpcEx.Status.Detail}",
                 innerException: rpcEx.Status.DebugException);
         }
     }

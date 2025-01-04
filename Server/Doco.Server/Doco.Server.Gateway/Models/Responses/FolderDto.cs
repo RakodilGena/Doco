@@ -5,4 +5,5 @@
 /// </summary>
 public  sealed record FolderDto(
     Guid Id, 
-    string Name);
+    string Name,
+    IReadOnlyList<FileDto> Files);

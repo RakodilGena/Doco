@@ -1,4 +1,4 @@
-﻿namespace Doco.Server.Gateway.Services;
+﻿namespace Doco.Server.Gateway.Services.Internal;
 
 internal interface IFileServiceUrlProvider
 {

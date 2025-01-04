@@ -1,4 +1,5 @@
 ﻿using Doco.Server.Gateway.Services;
+using Doco.Server.Gateway.Services.Internal;
 
 namespace Doco.Server.Gateway.Endpoints.Minimal.Files;
 
