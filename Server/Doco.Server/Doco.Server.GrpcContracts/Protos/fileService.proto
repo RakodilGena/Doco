@@ -1,0 +1,46 @@
+﻿syntax = "proto3";
+
+import 'google/protobuf/empty.proto';
+
+package fileService;
+
+service FileService {
+  
+  rpc DownloadFile(DownloadFileRequest) returns (stream DownloadFileChunk);
+  
+  rpc UploadFile(stream UploadFileChunk) returns (google.protobuf.Empty);
+  
+  rpc GetFiles(google.protobuf.Empty) returns (GetFilesReply);
+}
+
+message DownloadFileRequest {
+  string fileId = 1;
+}
+
+message DownloadFileChunk {
+  string fileName = 1;
+  bytes bytes = 2;
+  string contentType = 3;
+}
+
+message UploadFileChunk {
+  string fileName = 1;
+  bytes bytes = 2;
+}
+
+message File {
+  string id = 1;
+  string name = 2;
+  int32 sizeBytes = 3;
+}
+
+message Folder {
+  string id = 1;
+  string name = 2;
+  repeated File files = 3;
+}
+
+message GetFilesReply {
+  repeated Folder folders = 1;
+  repeated File files = 2;
+}

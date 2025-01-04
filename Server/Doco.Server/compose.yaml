@@ -1,0 +1,18 @@
+﻿services:
+  doco.server.gateway:
+    image: doco.server.gateway
+    build:
+      context: .
+      dockerfile: Doco.Server.Gateway/Dockerfile
+
+  doco.server.servicediscovery:
+    image: doco.server.servicediscovery
+    build:
+      context: .
+      dockerfile: Doco.Server.ServiceDiscovery/Dockerfile
+
+  doco.server.fileservice:
+    image: doco.server.fileservice
+    build:
+      context: .
+      dockerfile: Doco.Server.FileService/Dockerfile

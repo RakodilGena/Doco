@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+option csharp_namespace = "Doco.Server.ServiceDiscovery";
+
+package serviceDiscovery;
+
+service FileServicesDiscovery {
+  rpc Discover (google.protobuf.Empty) returns (FileServicesReply);
+}
+
+message FileServicesReply {
+  repeated string instances = 1;
+}
