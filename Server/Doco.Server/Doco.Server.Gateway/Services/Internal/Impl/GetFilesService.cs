@@ -1,7 +1,7 @@
 ﻿using Doco.Server.Gateway.Exceptions;
 using Doco.Server.Gateway.Mappers;
 using Doco.Server.Gateway.Models.Responses;
-using Google.Protobuf.WellKnownTypes;
+using FileService;
 using Grpc.Core;
 using Grpc.Net.Client;
 
@@ -16,7 +16,9 @@ internal sealed class GetFilesService : IGetFilesService
         _fileServiceUrlProvider = fileServiceUrlProvider;
     }
 
-    public async Task<GetFilesResultDto> GetFilesAsync(CancellationToken ct)
+    public async Task<GetFilesResultDto> GetFilesAsync(
+        Guid? folderId,
+        CancellationToken ct)
     {
         var serviceUrl = _fileServiceUrlProvider.GetUrl();
 
@@ -24,19 +26,25 @@ internal sealed class GetFilesService : IGetFilesService
 
         var client = new FileServiceClient(channel);
 
-        var result = await GetFilesAsync(client, ct);
+        var result = await GetFilesAsync(folderId, client, ct);
 
         return result;
     }
 
     private static async Task<GetFilesResultDto> GetFilesAsync(
+        Guid? folderId,
         FileServiceClient client,
         CancellationToken ct)
     {
         try
         {
+            var request = new GetFilesRequest
+            {
+                FolderId = folderId?.ToString() ?? null
+            };
+
             var results = await client.GetFilesAsync(
-                new Empty(),
+                request,
                 cancellationToken: ct);
 
             if (results is null)

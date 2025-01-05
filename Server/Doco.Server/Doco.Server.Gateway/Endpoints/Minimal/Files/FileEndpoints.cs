@@ -11,6 +11,7 @@ internal static partial class FileEndpoints
         return app
             .MapUploadFiles()
             .MapDownloadFile()
-            .MapGetFiles();
+            .MapGetAllFiles()
+            .MapGetFilesFromFolder();
     }
 }

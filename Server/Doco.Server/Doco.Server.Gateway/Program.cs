@@ -1,5 +1,4 @@
 using Doco.Server.Gateway.Extensions;
-using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
 

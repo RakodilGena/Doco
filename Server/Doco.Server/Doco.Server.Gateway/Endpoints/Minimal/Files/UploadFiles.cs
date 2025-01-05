@@ -1,5 +1,5 @@
-﻿using Doco.Server.Gateway.Services;
-using Doco.Server.Gateway.Services.Internal;
+﻿using Doco.Server.Gateway.Services.Internal;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Doco.Server.Gateway.Endpoints.Minimal.Files;
 
@@ -14,12 +14,14 @@ internal static partial class FileEndpoints
     /// <summary>
     /// Allows user to upload one or more files to specific folder.
     /// </summary>
+    /// <param name="folderId"></param>
     /// <param name="files"></param>
     /// <param name="uploadFileService"></param>
     /// <param name="ct"></param>
     private static Task UploadFiles(
-        IFormFileCollection files,
+        [FromForm] Guid? folderId,
+        [FromForm] IFormFileCollection files,
         IUploadFileService uploadFileService,
         CancellationToken ct)
-        => uploadFileService.UploadFilesAsync(files, ct);
+        => uploadFileService.UploadFilesAsync(folderId, files, ct);
 }

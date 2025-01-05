@@ -4,5 +4,7 @@ namespace Doco.Server.Gateway.Services.Internal;
 
 internal interface IGetFilesService
 {
-    Task<GetFilesResultDto> GetFilesAsync(CancellationToken ct);
+    Task<GetFilesResultDto> GetFilesAsync(
+        Guid? folderId, 
+        CancellationToken ct);
 }

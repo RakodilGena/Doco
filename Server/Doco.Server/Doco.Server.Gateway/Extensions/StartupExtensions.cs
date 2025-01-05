@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using Doco.Server.Gateway.Endpoints.Minimal.Files;
 using Doco.Server.Gateway.Options;
-using Doco.Server.Gateway.Services;
 using Doco.Server.Gateway.Services.Daemons;
 using Doco.Server.Gateway.Services.Internal;
 using Doco.Server.Gateway.Services.Internal.Impl;

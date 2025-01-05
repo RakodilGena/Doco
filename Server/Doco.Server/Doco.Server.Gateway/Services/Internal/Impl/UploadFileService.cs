@@ -18,7 +18,10 @@ internal sealed class UploadFileService : IUploadFileService
         _buffer = new byte[Constants.FileChunkSize];
     }
 
-    public async Task UploadFilesAsync(IFormFileCollection files, CancellationToken ct)
+    public async Task UploadFilesAsync(
+        Guid? folderId,
+        IFormFileCollection files,
+        CancellationToken ct)
     {
         var serviceUrl = _fileServiceUrlProvider.GetUrl();
 
@@ -28,11 +31,12 @@ internal sealed class UploadFileService : IUploadFileService
 
         foreach (var file in files)
         {
-            await UploadFileAsync(file, client, ct);
+            await UploadFileAsync(folderId, file, client, ct);
         }
     }
 
     private async Task UploadFileAsync(
+        Guid? folderId,
         IFormFile file,
         FileServiceClient fileServiceClient,
         CancellationToken ct)
@@ -50,16 +54,24 @@ internal sealed class UploadFileService : IUploadFileService
                 var readCount = await stream.ReadAsync(_buffer, ct);
                 totalLength -= readCount;
 
-                string fileName = chunkIndex is 0
-                    ? file.FileName
-                    : string.Empty;
-                
-                string contentType = chunkIndex is 0
-                    ? file.ContentType
-                    : string.Empty;
+
+                string fileName, contentType;
+                string? folderIdStr;
+                if (chunkIndex is 0)
+                {
+                    fileName = file.FileName;
+                    contentType = file.ContentType;
+                    folderIdStr = folderId?.ToString() ?? null;
+                }
+                else
+                {
+                    fileName = contentType = string.Empty;
+                    folderIdStr = null;
+                }
 
                 var chunk = new UploadFileChunk
                 {
+                    FolderId = folderIdStr,
                     Bytes = ByteString.CopyFrom(_buffer, 0, readCount),
                     FileName = fileName,
                     ContentType = contentType

@@ -2,5 +2,8 @@
 
 internal interface IUploadFileService
 {
-    Task UploadFilesAsync(IFormFileCollection files, CancellationToken ct);
+    Task UploadFilesAsync(
+        Guid? folderId,
+        IFormFileCollection files, 
+        CancellationToken ct);
 }

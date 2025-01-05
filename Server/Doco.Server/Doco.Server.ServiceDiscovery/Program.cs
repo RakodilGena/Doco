@@ -1,5 +1,4 @@
 using Doco.Server.ServiceDiscovery.Extensions;
-using Doco.Server.ServiceDiscovery.Options;
 using Doco.Server.ServiceDiscovery.Services;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 

@@ -22,7 +22,7 @@ internal sealed class FileServiceImpl : FileService.FileService.FileServiceBase
         return base.UploadFile(requestStream, context);
     }
 
-    public override Task<GetFilesReply> GetFiles(Empty request, ServerCallContext context)
+    public override Task<GetFilesReply> GetFiles(GetFilesRequest request, ServerCallContext context)
     {
         return Task.FromResult(
             new GetFilesReply

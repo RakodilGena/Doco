@@ -1,6 +1,7 @@
 ﻿syntax = "proto3";
 
 import 'google/protobuf/empty.proto';
+import 'google/protobuf/wrappers.proto';
 
 package fileService;
 
@@ -10,7 +11,7 @@ service FileService {
   
   rpc UploadFile(stream UploadFileChunk) returns (google.protobuf.Empty);
   
-  rpc GetFiles(google.protobuf.Empty) returns (GetFilesReply);
+  rpc GetFiles(GetFilesRequest) returns (GetFilesReply);
 }
 
 message DownloadFileRequest {
@@ -27,6 +28,8 @@ message UploadFileChunk {
   string fileName = 1;
   bytes bytes = 2;
   string contentType = 3;
+  
+  google.protobuf.StringValue folderId = 4;
 }
 
 message File {
@@ -39,6 +42,10 @@ message Folder {
   string id = 1;
   string name = 2;
   repeated File files = 3;
+}
+
+message GetFilesRequest {
+  google.protobuf.StringValue folderId = 1;
 }
 
 message GetFilesReply {
