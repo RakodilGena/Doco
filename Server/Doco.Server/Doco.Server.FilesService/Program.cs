@@ -1,13 +1,17 @@
+using Doco.Server.FilesService.Extensions;
 using Doco.Server.FilesService.Services.Grpc;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.AddOptions();
 
 builder.WebHost.ConfigureKestrel(options =>
 {
     options.ConfigureEndpointDefaults(x =>
         x.Protocols = HttpProtocols.Http2);
 });
+
 // Add services to the container.
 builder.Services.AddGrpc();
 
