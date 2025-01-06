@@ -9,9 +9,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
+        <Content Include="..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
     </ItemGroup>
 
     <PropertyGroup>
@@ -19,16 +19,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Grpc.AspNetCore.Server.ClientFactory" Version="2.67.0" />
-      <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+        <PackageReference Include="Grpc.AspNetCore.Server.ClientFactory" Version="2.67.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Endpoints\Controllers\" />
-      <Folder Include="Models\Requests\" />
+        <Folder Include="Endpoints\Controllers\" />
+        <Folder Include="Models\Requests\" />
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Doco.Server.Gateway.Dal\Doco.Server.Gateway.Dal.csproj" />
         <ProjectReference Include="..\Doco.Server.GrpcContracts\Doco.Server.GrpcContracts.csproj" />
         <ProjectReference Include="..\Doco.Server.Core\Doco.Server.Core.csproj" />
     </ItemGroup>
