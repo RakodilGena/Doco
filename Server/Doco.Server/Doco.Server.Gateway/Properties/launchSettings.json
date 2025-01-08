@@ -20,6 +20,16 @@
         "ASPNETCORE_ENVIRONMENT": "Development",
         "SERVICE_DISCOVERY": "http://localhost:5100"
       }
+    },
+    "migrator": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:5200",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "MIGRATE": "true"
+      }
     }
   }
 }

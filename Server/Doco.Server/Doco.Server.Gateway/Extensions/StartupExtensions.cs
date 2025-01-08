@@ -23,6 +23,9 @@ internal static class StartupExtensions
 
     public static WebApplicationBuilder AddServices(this WebApplicationBuilder builder)
     {
+        if (builder.InMigratorMode())
+            return builder;
+        
         var services = builder.Services;
 
         services
@@ -36,14 +39,17 @@ internal static class StartupExtensions
 
     public static WebApplicationBuilder AddDaemons(this WebApplicationBuilder builder)
     {
-        var services = builder.Services;
+        if (builder.InMigratorMode())
+            return builder;
         
+        var services = builder.Services;
+
         var serviceDiscoveryTimeoutSection = builder.Configuration.GetSection(ServiceDiscoveryTimeout.SectionName);
         if (serviceDiscoveryTimeoutSection.Exists() is false)
         {
             throw new Exception($"{ServiceDiscoveryTimeout.SectionName} section is not set");
         }
-        
+
         builder.Services.Configure<ServiceDiscoveryTimeout>(serviceDiscoveryTimeoutSection);
 
         services.AddHostedService<ServiceDiscoveryDaemon>();
@@ -53,6 +59,9 @@ internal static class StartupExtensions
 
     public static WebApplicationBuilder AddGrpcServices(this WebApplicationBuilder builder)
     {
+        if (builder.InMigratorMode())
+            return builder;
+        
         builder.Services.AddGrpc();
 
         var serviceDiscoveryUrl = builder.Configuration
@@ -97,7 +106,7 @@ internal static class StartupExtensions
             var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
         });
-        
+
         return builder;
     }
 
@@ -118,5 +127,11 @@ internal static class StartupExtensions
     {
         var group = app.MapGroup("/").DisableAntiforgery();
         group.MapFileEndpoints();
+    }
+
+    public static bool InMigratorMode(this WebApplicationBuilder builder)
+    {
+        var needMigration = builder.Configuration.GetValue<string>("MIGRATE") is "true";
+        return needMigration;
     }
 }

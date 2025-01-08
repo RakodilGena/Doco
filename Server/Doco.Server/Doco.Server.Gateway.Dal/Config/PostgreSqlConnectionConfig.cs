@@ -1,6 +1,6 @@
-﻿namespace Doco.Server.Gateway.Options;
+﻿namespace Doco.Server.Gateway.Dal.Config;
 
-internal sealed class PostgreSqlConnectionConfig
+public sealed class PostgreSqlConnectionConfig
 {
     public const string SectionName = "PostgreSqlConnection";
 

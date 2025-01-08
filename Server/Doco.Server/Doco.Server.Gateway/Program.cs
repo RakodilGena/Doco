@@ -1,7 +1,6 @@
+using Doco.Server.Gateway.Dal.Config;
 using Doco.Server.Gateway.Dal.Extensions;
 using Doco.Server.Gateway.Extensions;
-using Doco.Server.Gateway.Options;
-using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,33 +29,28 @@ return;
 
 void RunWithMigrate()
 {
-    var needMigration = Environment.GetEnvironmentVariable("Migrate") is "true";
+    var needMigration = builder.InMigratorMode();
     if (needMigration)
     {
         var connectionConfigSection = builder.Configuration.GetSection(PostgreSqlConnectionConfig.SectionName);
         if (connectionConfigSection.Exists() is false)
         {
-            throw new Exception($"{ServiceDiscoveryTimeout.SectionName} section is not set");
+            throw new Exception($"{PostgreSqlConnectionConfig.SectionName} section is not set");
         }
 
         var connectionConfig = connectionConfigSection.Get<PostgreSqlConnectionConfig>();
         if (connectionConfig is null)
         {
-            throw new Exception($"{ServiceDiscoveryTimeout.SectionName} section is invalid");
+            throw new Exception($"{PostgreSqlConnectionConfig.SectionName} section is invalid");
         }
 
-        var connectionStringBuilder = new NpgsqlConnectionStringBuilder
-        {
-            Host = connectionConfig.Host,
-            Port = connectionConfig.Port,
-            Database = connectionConfig.Database,
-            Username = connectionConfig.Username,
-            Password = connectionConfig.Password,
-            CommandTimeout = connectionConfig.CommandTimeout
-        };
-
-        var connectionString = connectionStringBuilder.ToString();
-        MigrationExtensions.Migrate(connectionString);
+        Console.WriteLine("Ensuring database created...");
+        GatewayDbCreator.EnsureDatabaseCreated(connectionConfig);
+        Console.WriteLine("Done.");
+        
+        Console.WriteLine("Starting migrations...");
+        GatewayDbMigrator.Migrate(connectionConfig);
+        Console.WriteLine("Done.");
     }
     else
     {
