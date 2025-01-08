@@ -25,6 +25,7 @@
 
     <ItemGroup>
         <Folder Include="Endpoints\Controllers\" />
+        <Folder Include="Models\Domain\" />
         <Folder Include="Models\Requests\" />
     </ItemGroup>
 
