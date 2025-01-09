@@ -22,13 +22,11 @@ internal sealed class CreateUserService : ICreateUserService
             IsolationLevel = IsolationLevel.Serializable,
             Timeout = 1.Seconds()
         };
-        
-        using var tScope =  new TransactionScope(
+
+        using var tScope = new TransactionScope(
             TransactionScopeOption.Required,
-            options, 
+            options,
             TransactionScopeAsyncFlowOption.Enabled);
-        
-        bool usersExist = await _userRepository.UsersExistAsync(cancellationToken);
 
         var salt = "rwefdsfdfs";
 
@@ -38,10 +36,10 @@ internal sealed class CreateUserService : ICreateUserService
             request.Email,
             HashedPassword: request.Password + salt,
             HashPasswordSalt: salt,
-            IsAdmin: usersExist is false);
-        
+            IsAdmin: false);
+
         await _userRepository.CreateUserAsync(userToCreate, cancellationToken);
-        
+
         tScope.Complete();
     }
 }

@@ -11,8 +11,8 @@ public sealed class Initial_1 : Migration
             .WithColumn("id").AsGuid().NotNullable().PrimaryKey()
             .WithColumn("name").AsString().NotNullable()
             .WithColumn("email").AsString().NotNullable()
-            .WithColumn("hashed_password").AsString().NotNullable()
-            .WithColumn("hash_password_salt").AsString().NotNullable()
+            .WithColumn("hashed_password").AsBinary().NotNullable()
+            .WithColumn("hash_password_salt").AsBinary().NotNullable()
             .WithColumn("is_admin").AsBoolean().NotNullable()
             .WithDefaultValue(false)
 

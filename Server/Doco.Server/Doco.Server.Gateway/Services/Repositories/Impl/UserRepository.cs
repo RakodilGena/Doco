@@ -23,7 +23,7 @@ internal sealed class UserRepository : IUserRepository
             $"""
               SELECT {UD.Id} as Id, 
               {UD.HashedPassword} as HashedPassword, 
-              {UD.HashPasswordSalt} as HashedPasswordSalt, 
+              {UD.HashPasswordSalt} as HashPasswordSalt, 
               {UD.DeletedAt} as DeletedAt 
               FROM {UD.Table} WHERE {UD.Email} = @email
              """;

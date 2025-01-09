@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doco.Server.Core", "Doco.Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doco.Server.Gateway.Dal", "Doco.Server.Gateway.Dal\Doco.Server.Gateway.Dal.csproj", "{88FE04A5-382B-4B93-9211-724866E4CCC5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doco.Server.PasswordEncryption", "Doco.Server.PasswordEncryption\Doco.Server.PasswordEncryption.csproj", "{D39AB65D-710C-4B6A-9742-93A0E3C8C274}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{88FE04A5-382B-4B93-9211-724866E4CCC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88FE04A5-382B-4B93-9211-724866E4CCC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88FE04A5-382B-4B93-9211-724866E4CCC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D39AB65D-710C-4B6A-9742-93A0E3C8C274}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D39AB65D-710C-4B6A-9742-93A0E3C8C274}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D39AB65D-710C-4B6A-9742-93A0E3C8C274}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D39AB65D-710C-4B6A-9742-93A0E3C8C274}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
