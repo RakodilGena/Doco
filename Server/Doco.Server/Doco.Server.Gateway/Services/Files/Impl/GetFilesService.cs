@@ -1,11 +1,11 @@
 ﻿using Doco.Server.Gateway.Exceptions;
 using Doco.Server.Gateway.Mappers;
-using Doco.Server.Gateway.Models.Responses;
+using Doco.Server.Gateway.Models.Responses.Files;
 using FileService;
 using Grpc.Core;
 using Grpc.Net.Client;
 
-namespace Doco.Server.Gateway.Services.Internal.Impl;
+namespace Doco.Server.Gateway.Services.Files.Impl;
 
 internal sealed class GetFilesService : IGetFilesService
 {

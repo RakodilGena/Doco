@@ -1,4 +1,4 @@
-﻿using Doco.Server.Gateway.Models.Responses;
+﻿using Doco.Server.Gateway.Models.Responses.Files;
 using FileService;
 using File = FileService.File;
 

@@ -1,4 +1,4 @@
-﻿namespace Doco.Server.Gateway.Services.Internal;
+﻿namespace Doco.Server.Gateway.Services.Files;
 
 internal interface IUploadFileService
 {

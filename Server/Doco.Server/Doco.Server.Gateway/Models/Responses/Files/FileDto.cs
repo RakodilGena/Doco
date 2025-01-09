@@ -1,4 +1,4 @@
-﻿namespace Doco.Server.Gateway.Models.Responses;
+﻿namespace Doco.Server.Gateway.Models.Responses.Files;
 
 /// <summary>
 /// 

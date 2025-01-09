@@ -5,7 +5,7 @@ using Google.Protobuf;
 using Grpc.Core;
 using Grpc.Net.Client;
 
-namespace Doco.Server.Gateway.Services.Internal.Impl;
+namespace Doco.Server.Gateway.Services.Files.Impl;
 
 internal sealed class UploadFileService : IUploadFileService
 {

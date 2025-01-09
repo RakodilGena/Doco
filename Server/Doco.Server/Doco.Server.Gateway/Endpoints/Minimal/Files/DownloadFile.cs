@@ -1,4 +1,4 @@
-﻿using Doco.Server.Gateway.Services.Internal;
+﻿using Doco.Server.Gateway.Services.Files;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Doco.Server.Gateway.Endpoints.Minimal.Files;
@@ -12,7 +12,7 @@ internal static partial class FileEndpoints
     }
 
     /// <summary>
-    /// Allows the user to download certain file.
+    /// Allows user to download certain file.
     /// </summary>
     /// <param name="fileId"></param>
     /// <param name="downloadFileService"></param>

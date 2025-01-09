@@ -1,11 +1,12 @@
 using Doco.Server.Gateway.Dal.Config;
-using Doco.Server.Gateway.Dal.Extensions;
+using Doco.Server.Gateway.Dal.Services;
 using Doco.Server.Gateway.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.ConfigureMaxRequestSize()
     .AddSwagger()
+    .AddOptions()
     .AddServices()
     .AddGrpcServices()
     .AddDaemons();

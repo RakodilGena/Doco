@@ -1,5 +1,5 @@
-﻿using Doco.Server.Gateway.Models.Responses;
-using Doco.Server.Gateway.Services.Internal;
+﻿using Doco.Server.Gateway.Models.Responses.Files;
+using Doco.Server.Gateway.Services.Files;
 
 namespace Doco.Server.Gateway.Endpoints.Minimal.Files;
 
@@ -18,7 +18,7 @@ internal static partial class FileEndpoints
     }
 
     /// <summary>
-    /// Allows user get all accessible files.
+    /// Allows user to get all accessible files.
     /// </summary>
     /// <param name="getFilesService"></param>
     /// <param name="ct"></param>

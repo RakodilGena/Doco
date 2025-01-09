@@ -1,6 +1,6 @@
 ﻿using Doco.Server.Core.Extensions;
 using Doco.Server.Gateway.Options;
-using Doco.Server.Gateway.Services.Internal;
+using Doco.Server.Gateway.Services.Files;
 using Doco.Server.ServiceDiscovery;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;

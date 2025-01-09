@@ -14,6 +14,7 @@ public sealed class Initial_1 : Migration
             .WithColumn("hashed_password").AsString().NotNullable()
             .WithColumn("hash_password_salt").AsString().NotNullable()
             .WithColumn("is_admin").AsBoolean().NotNullable()
+            .WithDefaultValue(false)
 
             .WithColumn("created_at").AsCustom("timestamp with time zone")
             .NotNullable().WithDefault(SystemMethods.CurrentUTCDateTime)

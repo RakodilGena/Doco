@@ -1,4 +1,4 @@
-﻿using Doco.Server.Gateway.Services.Internal;
+﻿using Doco.Server.Gateway.Services.Files;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Doco.Server.Gateway.Endpoints.Minimal.Files;

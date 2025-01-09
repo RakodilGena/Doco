@@ -1,9 +1,17 @@
 ﻿using System.Reflection;
+using Doco.Server.Gateway.Dal.Config;
 using Doco.Server.Gateway.Endpoints.Minimal.Files;
+using Doco.Server.Gateway.Endpoints.Minimal.Users;
 using Doco.Server.Gateway.Options;
 using Doco.Server.Gateway.Services.Daemons;
-using Doco.Server.Gateway.Services.Internal;
-using Doco.Server.Gateway.Services.Internal.Impl;
+using Doco.Server.Gateway.Services.DatabaseAccess;
+using Doco.Server.Gateway.Services.DatabaseAccess.Impl;
+using Doco.Server.Gateway.Services.Files;
+using Doco.Server.Gateway.Services.Files.Impl;
+using Doco.Server.Gateway.Services.Repositories;
+using Doco.Server.Gateway.Services.Repositories.Impl;
+using Doco.Server.Gateway.Services.Users;
+using Doco.Server.Gateway.Services.Users.Impl;
 using Doco.Server.ServiceDiscovery;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.OpenApi.Models;
@@ -21,38 +29,62 @@ internal static class StartupExtensions
         return builder;
     }
 
+    public static WebApplicationBuilder AddOptions(this WebApplicationBuilder builder)
+    {
+        if (builder.InMigratorMode())
+            return builder;
+
+        #region serviceDiscoveryTimeout
+
+        {
+            var serviceDiscoveryTimeoutSection = builder.Configuration.GetSection(ServiceDiscoveryTimeout.SectionName);
+            if (serviceDiscoveryTimeoutSection.Exists() is false)
+            {
+                throw new Exception($"{ServiceDiscoveryTimeout.SectionName} section is not set");
+            }
+
+            builder.Services.Configure<ServiceDiscoveryTimeout>(serviceDiscoveryTimeoutSection);
+        }
+
+        #endregion
+
+        #region connectionConfig
+
+        {
+            var connectionConfigSection = builder.Configuration.GetSection(PostgreSqlConnectionConfig.SectionName);
+            if (connectionConfigSection.Exists() is false)
+            {
+                throw new Exception($"{PostgreSqlConnectionConfig.SectionName} section is not set");
+            }
+
+            builder.Services.Configure<PostgreSqlConnectionConfig>(connectionConfigSection);
+        }
+
+        #endregion
+
+        return builder;
+    }
+
     public static WebApplicationBuilder AddServices(this WebApplicationBuilder builder)
     {
         if (builder.InMigratorMode())
             return builder;
-        
+
         var services = builder.Services;
 
         services
             .AddSingleton<IFileServiceUrlProvider, FileServiceUrlProvider>()
             .AddScoped<IUploadFileService, UploadFileService>()
             .AddScoped<IDownloadFileService, DownloadFileService>()
-            .AddScoped<IGetFilesService, GetFilesService>();
+            .AddScoped<IGetFilesService, GetFilesService>()
 
-        return builder;
-    }
+            .AddScoped<IUserRepository, UserRepository>()
+            .AddSingleton<IDbConnectionProvider, DbConnectionProvider>()
 
-    public static WebApplicationBuilder AddDaemons(this WebApplicationBuilder builder)
-    {
-        if (builder.InMigratorMode())
-            return builder;
+            .AddScoped<IGetUsersService, GetUsersService>()
+            .AddScoped<ICreateUserService, CreateUserService>();
         
-        var services = builder.Services;
-
-        var serviceDiscoveryTimeoutSection = builder.Configuration.GetSection(ServiceDiscoveryTimeout.SectionName);
-        if (serviceDiscoveryTimeoutSection.Exists() is false)
-        {
-            throw new Exception($"{ServiceDiscoveryTimeout.SectionName} section is not set");
-        }
-
-        builder.Services.Configure<ServiceDiscoveryTimeout>(serviceDiscoveryTimeoutSection);
-
-        services.AddHostedService<ServiceDiscoveryDaemon>();
+        
 
         return builder;
     }
@@ -61,7 +93,7 @@ internal static class StartupExtensions
     {
         if (builder.InMigratorMode())
             return builder;
-        
+
         builder.Services.AddGrpc();
 
         var serviceDiscoveryUrl = builder.Configuration
@@ -74,6 +106,17 @@ internal static class StartupExtensions
         {
             options.Address = new Uri(serviceDiscoveryUrl);
         });
+
+        return builder;
+    }
+
+
+    public static WebApplicationBuilder AddDaemons(this WebApplicationBuilder builder)
+    {
+        if (builder.InMigratorMode())
+            return builder;
+
+        builder.Services.AddHostedService<ServiceDiscoveryDaemon>();
 
         return builder;
     }
@@ -126,7 +169,10 @@ internal static class StartupExtensions
     public static void MapEndpoints(this WebApplication app)
     {
         var group = app.MapGroup("/").DisableAntiforgery();
-        group.MapFileEndpoints();
+        
+        group
+            .MapFileEndpoints()
+            .MapUserEndpoints();
     }
 
     public static bool InMigratorMode(this WebApplicationBuilder builder)

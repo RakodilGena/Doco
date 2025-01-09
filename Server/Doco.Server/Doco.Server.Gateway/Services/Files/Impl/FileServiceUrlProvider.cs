@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Doco.Server.Gateway.Exceptions;
 
-namespace Doco.Server.Gateway.Services.Internal.Impl;
+namespace Doco.Server.Gateway.Services.Files.Impl;
 
 internal sealed class FileServiceUrlProvider : IFileServiceUrlProvider
 {

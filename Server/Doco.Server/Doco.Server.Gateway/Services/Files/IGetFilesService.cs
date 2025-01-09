@@ -1,6 +1,6 @@
-﻿using Doco.Server.Gateway.Models.Responses;
+﻿using Doco.Server.Gateway.Models.Responses.Files;
 
-namespace Doco.Server.Gateway.Services.Internal;
+namespace Doco.Server.Gateway.Services.Files;
 
 internal interface IGetFilesService
 {
