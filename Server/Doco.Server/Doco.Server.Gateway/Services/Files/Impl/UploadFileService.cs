@@ -15,7 +15,7 @@ internal sealed class UploadFileService : IUploadFileService
     public UploadFileService(IFileServiceUrlProvider fileServiceUrlProvider)
     {
         _fileServiceUrlProvider = fileServiceUrlProvider;
-        _buffer = new byte[Constants.FileChunkSize];
+        _buffer = new byte[Constants.GrpcStreamChunkSize];
     }
 
     public async Task UploadFilesAsync(

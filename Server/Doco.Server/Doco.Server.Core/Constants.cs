@@ -1,6 +1,6 @@
 ﻿namespace Doco.Server.Core;
 
-public sealed class Constants
+public static class Constants
 {
-    public const int FileChunkSize = 64 * 1024;//64kb
+    public const int GrpcStreamChunkSize = 64 * 1024;//64kb
 }
