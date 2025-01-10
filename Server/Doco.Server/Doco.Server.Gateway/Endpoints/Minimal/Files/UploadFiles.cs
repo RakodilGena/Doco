@@ -5,10 +5,10 @@ namespace Doco.Server.Gateway.Endpoints.Minimal.Files;
 
 internal static partial class FileEndpoints
 {
-    private static IEndpointRouteBuilder MapUploadFiles(this IEndpointRouteBuilder app)
+    private static RouteGroupBuilder MapUploadFiles(this RouteGroupBuilder group)
     {
-        app.MapPost($"{Route}/upload", UploadFiles);
-        return app;
+        group.MapPost("/upload", UploadFiles);
+        return group;
     }
 
     /// <summary>

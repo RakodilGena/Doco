@@ -5,16 +5,16 @@ namespace Doco.Server.Gateway.Endpoints.Minimal.Files;
 
 internal static partial class FileEndpoints
 {
-    private static IEndpointRouteBuilder MapGetAllFiles(this IEndpointRouteBuilder app)
+    private static RouteGroupBuilder MapGetAllFiles(this RouteGroupBuilder group)
     {
-        app.MapGet($"{Route}/get/", GetAllFiles);
-        return app;
+        group.MapGet("get", GetAllFiles);
+        return group;
     }
 
-    private static IEndpointRouteBuilder MapGetFilesFromFolder(this IEndpointRouteBuilder app)
+    private static RouteGroupBuilder MapGetFilesFromFolder(this RouteGroupBuilder group)
     {
-        app.MapGet($"{Route}/get/{{folderId:guid}}", GetFilesFromFolder);
-        return app;
+        group.MapGet("get/{{folderId:guid}}", GetFilesFromFolder);
+        return group;
     }
 
     /// <summary>

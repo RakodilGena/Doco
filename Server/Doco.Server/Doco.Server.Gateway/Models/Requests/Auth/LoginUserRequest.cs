@@ -1,14 +1,11 @@
-﻿namespace Doco.Server.Gateway.Models.Requests;
+﻿namespace Doco.Server.Gateway.Models.Requests.Auth;
 
 /// <summary>
 /// 
 /// </summary>
 /// <param name="Email"></param>
-/// <param name="Name"></param>
 /// <param name="Password"></param>
-public sealed record CreateUserRequest(
+public sealed record LoginUserRequest(
     string Email,
-    string Name,
     string Password);
-    
     //todo: add validation

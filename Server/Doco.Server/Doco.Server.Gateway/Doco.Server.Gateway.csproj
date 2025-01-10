@@ -26,9 +26,11 @@
     <ItemGroup>
         <Folder Include="Endpoints\Controllers\" />
         <Folder Include="Models\Domain\" />
+        <Folder Include="Models\Requests\Files\" />
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Doco.Server.Gateway.Authentication\Doco.Server.Gateway.Authentication.csproj" />
         <ProjectReference Include="..\Doco.Server.Gateway.Dal\Doco.Server.Gateway.Dal.csproj" />
         <ProjectReference Include="..\Doco.Server.GrpcContracts\Doco.Server.GrpcContracts.csproj" />
         <ProjectReference Include="..\Doco.Server.Core\Doco.Server.Core.csproj" />

@@ -5,9 +5,9 @@ namespace Doco.Server.Gateway.Endpoints.Minimal.Users;
 
 internal static partial class UserEndpoints
 {
-    private static IEndpointRouteBuilder MapGetUsers(this IEndpointRouteBuilder group)
+    private static RouteGroupBuilder MapGetUsers(this RouteGroupBuilder group)
     {
-        group.MapGet("get/", GetUsers);
+        group.MapGet("get", GetUsers);
         return group;
     }
 

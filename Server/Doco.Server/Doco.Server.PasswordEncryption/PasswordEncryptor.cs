@@ -19,7 +19,7 @@ public static class PasswordEncryptor
         
         var argon2 = new Argon2id(passwordBytes);
         argon2.DegreeOfParallelism = 1;
-        argon2.MemorySize = 8192;
+        argon2.MemorySize = 19456;//19mib
         argon2.Iterations = 2;
         argon2.Salt = salt;
 

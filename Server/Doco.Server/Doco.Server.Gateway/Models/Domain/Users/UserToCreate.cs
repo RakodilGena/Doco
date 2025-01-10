@@ -4,6 +4,6 @@ internal sealed record UserToCreate(
     Guid Id,
     string Name,
     string Email,
-    string HashedPassword,
-    string HashPasswordSalt,
+    byte[] HashedPassword,
+    byte[] HashPasswordSalt,
     bool IsAdmin);

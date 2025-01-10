@@ -1,10 +1,14 @@
-﻿namespace Doco.Server.Gateway.Endpoints.Minimal.Users;
+﻿using Doco.Server.Gateway.Authentication.Options;
+
+namespace Doco.Server.Gateway.Endpoints.Minimal.Users;
 
 internal static partial class UserEndpoints
 {
-    public static IEndpointRouteBuilder MapUserEndpoints(this IEndpointRouteBuilder app)
+    public static RouteGroupBuilder MapUserEndpoints(this RouteGroupBuilder app)
     {
-        var group = app.MapGroup("users");
+        var group = app
+            .MapGroup("users")
+            .RequireAuthorization(JwtAuthConfig.PolicyName);
 
         group
             .MapGetUsers()

@@ -1,6 +1,10 @@
-using Doco.Server.Gateway.Dal.Config;
-using Doco.Server.Gateway.Dal.Services;
+using Doco.Server.Gateway.Authentication;
+using Doco.Server.Gateway.Authentication.Extensions;
+using Doco.Server.Gateway.Authentication.Handlers;
+using Doco.Server.Gateway.Authentication.Options;
+using Doco.Server.Gateway.Authentication.Services;
 using Doco.Server.Gateway.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,9 +17,23 @@ builder.ConfigureMaxRequestSize()
 
 builder.Services.AddEndpointsApiExplorer();
 
+var jwtAuthConfig = builder.AddJwtAuthServices();
 
+builder.Services.AddAuthorization(o =>
+{
+    o.AddPolicy(JwtAuthConfig.PolicyName, 
+        policy => policy
+            .RequireAuthenticatedUser()
+            .AddRequirements(new DocoAuthRequirement(DocoClaimTypes.UserId)));
+});
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options => options.ApplyValidationParameters(jwtAuthConfig));
 
 var app = builder.Build();
+ 
+app.UseAuthentication();
+app.UseAuthorization();
 
 // Configure the HTTP request pipeline.
 app.UseSwagger();
@@ -33,25 +51,7 @@ void RunWithMigrate()
     var needMigration = builder.InMigratorMode();
     if (needMigration)
     {
-        var connectionConfigSection = builder.Configuration.GetSection(PostgreSqlConnectionConfig.SectionName);
-        if (connectionConfigSection.Exists() is false)
-        {
-            throw new Exception($"{PostgreSqlConnectionConfig.SectionName} section is not set");
-        }
-
-        var connectionConfig = connectionConfigSection.Get<PostgreSqlConnectionConfig>();
-        if (connectionConfig is null)
-        {
-            throw new Exception($"{PostgreSqlConnectionConfig.SectionName} section is invalid");
-        }
-
-        Console.WriteLine("Ensuring database created...");
-        GatewayDbCreator.EnsureDatabaseCreated(connectionConfig);
-        Console.WriteLine("Done.");
-        
-        Console.WriteLine("Starting migrations...");
-        GatewayDbMigrator.Migrate(connectionConfig);
-        Console.WriteLine("Done.");
+        builder.RunMigrations();
     }
     else
     {

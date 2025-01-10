@@ -1,8 +1,9 @@
 ﻿using System.Transactions;
 using Doco.Server.Core.Extensions;
 using Doco.Server.Gateway.Models.Domain.Users;
-using Doco.Server.Gateway.Models.Requests;
+using Doco.Server.Gateway.Models.Requests.Users;
 using Doco.Server.Gateway.Services.Repositories;
+using Doco.Server.PasswordEncryption;
 
 namespace Doco.Server.Gateway.Services.Users.Impl;
 
@@ -15,7 +16,9 @@ internal sealed class CreateUserService : ICreateUserService
         _userRepository = userRepository;
     }
 
-    public async Task CreateUserAsync(CreateUserRequest request, CancellationToken cancellationToken)
+    public async Task CreateUserAsync(
+        CreateUserRequest request,
+        CancellationToken cancellationToken)
     {
         var options = new TransactionOptions
         {
@@ -28,14 +31,14 @@ internal sealed class CreateUserService : ICreateUserService
             options,
             TransactionScopeAsyncFlowOption.Enabled);
 
-        var salt = "rwefdsfdfs";
+        var (hashedPass, hashSalt) = PasswordEncryptor.Encrypt(request.Password);
 
         var userToCreate = new UserToCreate(
             Id: Guid.CreateVersion7(),
             request.Name,
             request.Email,
-            HashedPassword: request.Password + salt,
-            HashPasswordSalt: salt,
+            HashedPassword: hashedPass,
+            HashPasswordSalt: hashSalt,
             IsAdmin: false);
 
         await _userRepository.CreateUserAsync(userToCreate, cancellationToken);

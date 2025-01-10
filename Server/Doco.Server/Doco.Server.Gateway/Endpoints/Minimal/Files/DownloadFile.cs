@@ -5,10 +5,12 @@ namespace Doco.Server.Gateway.Endpoints.Minimal.Files;
 
 internal static partial class FileEndpoints
 {
-    private static IEndpointRouteBuilder MapDownloadFile(this IEndpointRouteBuilder app)
+    private static RouteGroupBuilder MapDownloadFile(this RouteGroupBuilder group)
     {
-        app.MapGet($"{Route}/download/{{fileId:guid}}", DownloadFile);
-        return app;
+        //Won't work without $ IDK why.
+        // ReSharper disable once RedundantStringInterpolation
+        group.MapGet($"download/{{fileId:guid}}", DownloadFile);
+        return group;
     }
 
     /// <summary>
