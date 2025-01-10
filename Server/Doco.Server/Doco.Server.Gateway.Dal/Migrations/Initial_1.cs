@@ -25,8 +25,11 @@ public sealed class Initial_1 : Migration
             .OnTable("users")
             .OnColumn("email")
             .Ascending()
-            .WithOptions()
-            .Unique();
+            .WithOptions().Unique();
+        
+        Create.UniqueConstraint("constraint_user_name")
+            .OnTable("users")
+            .Columns("name");
     }
 
     public override void Down()

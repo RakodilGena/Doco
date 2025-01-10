@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using Doco.Server.Gateway.Exceptions;
+using Doco.Server.Gateway.Exceptions.ServiceDiscovery;
 
 namespace Doco.Server.Gateway.Services.Files.Impl;
 

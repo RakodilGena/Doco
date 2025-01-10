@@ -1,4 +1,4 @@
-﻿using Doco.Server.Gateway.Exceptions;
+﻿using Doco.Server.Gateway.Exceptions.ServiceDiscovery;
 using Doco.Server.Gateway.Models.Responses.Files;
 using FileService;
 using Grpc.Core;

@@ -1,3 +1,3 @@
-﻿namespace Doco.Server.Gateway.Exceptions;
+﻿namespace Doco.Server.Gateway.Exceptions.ServiceDiscovery;
 
 internal sealed class NotDiscoveredException(string message) : Exception(message);

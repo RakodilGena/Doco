@@ -1,5 +1,5 @@
 ﻿using Doco.Server.Core;
-using Doco.Server.Gateway.Exceptions;
+using Doco.Server.Gateway.Exceptions.ServiceDiscovery;
 using FileService;
 using Google.Protobuf;
 using Grpc.Core;

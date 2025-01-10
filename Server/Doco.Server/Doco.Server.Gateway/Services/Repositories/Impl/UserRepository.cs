@@ -1,4 +1,6 @@
 ﻿using Dapper;
+using Doco.Server.Core;
+using Doco.Server.Gateway.Exceptions.Users;
 using Doco.Server.Gateway.Models.Domain.Users;
 using Doco.Server.Gateway.Models.Responses.Users;
 using Doco.Server.Gateway.Services.DatabaseAccess;
@@ -45,35 +47,54 @@ internal sealed class UserRepository : IUserRepository
         UserToCreate user,
         CancellationToken cancellationToken)
     {
-        const string sql =
-            $"""
-             INSERT INTO {UD.Table} 
-                 ({UD.Id}, {UD.Name}, {UD.Email}, {UD.HashedPassword}, {UD.HashPasswordSalt}, {UD.IsAdmin})
-             VALUES 
-                 (@id, @name, @email, @hashedPassword, @hashPasswordSalt, @isAdmin);
-             """;
+        try
+        {
+            const string sql =
+                $"""
+                 INSERT INTO {UD.Table} 
+                     ({UD.Id}, {UD.Name}, {UD.Email}, {UD.HashedPassword}, {UD.HashPasswordSalt}, {UD.IsAdmin})
+                 VALUES 
+                     (@id, @name, @email, @hashedPassword, @hashPasswordSalt, @isAdmin);
+                 """;
 
-        await using var connection = _connectionProvider.GetConnection();
-        var cmd = new CommandDefinition(
-            sql,
-            parameters: new
+            await using var connection = _connectionProvider.GetConnection();
+
+
+            await connection.OpenAsync(cancellationToken);
+
+            var cmd = new CommandDefinition(
+                sql,
+                parameters: new
+                {
+                    user.Id,
+                    user.Name,
+                    user.Email,
+                    user.HashedPassword,
+                    user.HashPasswordSalt,
+                    user.IsAdmin
+                },
+                cancellationToken: cancellationToken);
+
+            await connection.ExecuteAsync(cmd);
+
+            await connection.CloseAsync();
+        }
+        catch (Npgsql.PostgresException e)
+        {
+            if (e.SqlState is not PgSqlExceptionStates.NotUnique)
+                throw;
+
+            switch (e.ConstraintName)
             {
-                user.Id,
-                user.Name,
-                user.Email,
-                user.HashedPassword,
-                user.HashPasswordSalt,
-                user.IsAdmin
-            },
-            cancellationToken: cancellationToken);
+                case UD.IdxEmail:
+                    throw new UserEmailNotUniqueException(
+                        "user email is not unique");
 
-        await connection.OpenAsync(cancellationToken);
-        var result = await connection.ExecuteAsync(cmd);
-        await connection.CloseAsync();
-
-        //todo: throw proper exception
-        if (result is not 1)
-            throw new Exception($"User {user.Email} already exists.");
+                case UD.ConstrName:
+                    throw new UserNameNotUniqueException(
+                        "user name is not unique");
+            }
+        }
     }
 
     public async Task<bool> UsersExistAsync(CancellationToken cancellationToken)

@@ -46,4 +46,14 @@ public static class UserDbDescription
     /// deleted_at
     /// </summary>
     public const string DeletedAt = "deleted_at";
+
+    /// <summary>
+    /// idx_user_email
+    /// </summary>
+    public const string IdxEmail = "idx_user_email";
+
+    /// <summary>
+    /// constraint_user_name
+    /// </summary>
+    public const string ConstrName = "constraint_user_name";
 }
