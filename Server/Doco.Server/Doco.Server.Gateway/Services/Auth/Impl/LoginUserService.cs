@@ -1,5 +1,5 @@
 ﻿using Doco.Server.Gateway.Authentication.Services;
-using Doco.Server.Gateway.Models.Requests.Auth;
+using Doco.Server.Gateway.Models.Domain.Auth;
 using Doco.Server.Gateway.Models.Responses.Auth;
 using Doco.Server.Gateway.Services.Repositories;
 using Doco.Server.PasswordEncryption;
@@ -19,7 +19,9 @@ internal sealed class LoginUserService : ILoginUserService
         _tokenCreator = tokenCreator;
     }
 
-    public async Task<LoginUserResult> LoginUserAsync(LoginUserRequest request, CancellationToken ct)
+    public async Task<LoginUserResult> LoginUserAsync(
+        LoginUserRequestDto request, 
+        CancellationToken ct)
     {
         var user = await _userRepository.GetAuthUserAsync(request.Email, ct);
         

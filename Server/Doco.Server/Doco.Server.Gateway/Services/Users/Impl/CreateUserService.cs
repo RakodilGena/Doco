@@ -1,7 +1,6 @@
 ﻿using System.Transactions;
 using Doco.Server.Core.Extensions;
 using Doco.Server.Gateway.Models.Domain.Users;
-using Doco.Server.Gateway.Models.Requests.Users;
 using Doco.Server.Gateway.Services.Repositories;
 using Doco.Server.PasswordEncryption;
 
@@ -17,7 +16,7 @@ internal sealed class CreateUserService : ICreateUserService
     }
 
     public async Task CreateUserAsync(
-        CreateUserRequest request,
+        CreateUserRequestDto request,
         CancellationToken cancellationToken)
     {
         var options = new TransactionOptions

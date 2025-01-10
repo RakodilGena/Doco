@@ -6,6 +6,5 @@
 /// <param name="Email"></param>
 /// <param name="Password"></param>
 public sealed record LoginUserRequest(
-    string Email,
-    string Password);
-    //todo: add validation
+    string? Email,
+    string? Password);

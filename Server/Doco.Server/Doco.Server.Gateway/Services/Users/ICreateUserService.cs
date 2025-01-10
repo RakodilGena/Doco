@@ -1,8 +1,8 @@
-﻿using Doco.Server.Gateway.Models.Requests.Users;
+﻿using Doco.Server.Gateway.Models.Domain.Users;
 
 namespace Doco.Server.Gateway.Services.Users;
 
 internal interface ICreateUserService
 {
-    Task CreateUserAsync(CreateUserRequest request, CancellationToken cancellationToken);
+    Task CreateUserAsync(CreateUserRequestDto request, CancellationToken cancellationToken);
 }

@@ -7,8 +7,6 @@
 /// <param name="Name"></param>
 /// <param name="Password"></param>
 public sealed record CreateUserRequest(
-    string Email,
-    string Name,
-    string Password);
-    
-    //todo: add validation
+    string? Email,
+    string? Name,
+    string? Password);

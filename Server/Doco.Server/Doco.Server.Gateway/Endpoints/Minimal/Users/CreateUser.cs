@@ -1,5 +1,8 @@
-﻿using Doco.Server.Gateway.Models.Requests.Users;
+﻿using Doco.Server.Gateway.Mappers;
+using Doco.Server.Gateway.Models.Requests.Users;
 using Doco.Server.Gateway.Services.Users;
+using Doco.Server.Gateway.Validation;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,9 +24,15 @@ internal static partial class UserEndpoints
     /// <param name="ct"></param>
     //todo: create rate limiter
     [AllowAnonymous]
-    private static Task CreateUser(
+    private static async Task CreateUser(
+        [FromBody] CreateUserRequest? request,
         ICreateUserService createUserService,
-        [FromBody] CreateUserRequest request,
         CancellationToken ct)
-        => createUserService.CreateUserAsync(request, ct);
+    {
+        var validator = new CreateUserRequestValidator();
+        await validator.ValidateAndThrowAsync(request, ct);
+        var requestDto = request!.ToDto();
+
+        await createUserService.CreateUserAsync(requestDto, ct);
+    }
 }

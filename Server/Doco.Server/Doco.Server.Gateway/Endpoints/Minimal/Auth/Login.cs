@@ -1,6 +1,9 @@
-﻿using Doco.Server.Gateway.Models.Requests.Auth;
+﻿using Doco.Server.Gateway.Mappers;
+using Doco.Server.Gateway.Models.Requests.Auth;
 using Doco.Server.Gateway.Models.Responses.Auth;
 using Doco.Server.Gateway.Services.Auth;
+using Doco.Server.Gateway.Validation;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,9 +24,15 @@ internal static partial class AuthEndpoints
     /// <param name="loginUserService"></param>
     /// <param name="ct"></param>
     [AllowAnonymous]
-    private static Task<LoginUserResult> Login(
-        [FromBody] LoginUserRequest request,
+    private static async Task<LoginUserResult> Login(
+        [FromBody] LoginUserRequest? request,
         ILoginUserService loginUserService,
         CancellationToken ct)
-        => loginUserService.LoginUserAsync(request, ct);
+    {
+        var validator = new LoginUserRequestValidator();
+        await validator.ValidateAndThrowAsync(request, ct);
+        var requestDto = request!.ToDto();
+
+        return await loginUserService.LoginUserAsync(requestDto, ct);
+    }
 }
