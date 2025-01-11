@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Options;
 using Npgsql;
 
-namespace Doco.Server.Gateway.Services.DatabaseAccess.Impl;
+namespace Doco.Server.Gateway.Dal.Services.DatabaseAccess.Impl;
 
 internal sealed class DbConnectionProvider : IDbConnectionProvider
 {

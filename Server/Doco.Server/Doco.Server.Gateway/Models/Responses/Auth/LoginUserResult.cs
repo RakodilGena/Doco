@@ -3,6 +3,8 @@
 /// <summary>
 /// 
 /// </summary>
-/// <param name="AuthToken"></param>
+/// <param name="JwtToken"></param>
+/// <param name="RefreshToken"></param>
 public sealed record LoginUserResult(
-    string AuthToken);
+    string JwtToken,
+    string RefreshToken);

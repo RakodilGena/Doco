@@ -1,5 +1,5 @@
-﻿using Doco.Server.Gateway.Models.Responses.Users;
-using Doco.Server.Gateway.Services.Repositories;
+﻿using Doco.Server.Gateway.Dal.Repositories;
+using Doco.Server.Gateway.Models.Responses.Users;
 
 namespace Doco.Server.Gateway.Services.Users.Impl;
 

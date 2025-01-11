@@ -1,5 +1,5 @@
 ﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-namespace Doco.Server.Gateway.Models.Responses.Users;
+namespace Doco.Server.Gateway.Dal.Models.Users;
 
 public sealed class UserDto
 {

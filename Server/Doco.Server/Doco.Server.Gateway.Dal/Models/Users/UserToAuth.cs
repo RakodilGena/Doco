@@ -1,6 +1,6 @@
-﻿namespace Doco.Server.Gateway.Models.Domain.Users;
+﻿namespace Doco.Server.Gateway.Dal.Models.Users;
 
-internal sealed class UserToAuth
+public sealed class UserToAuth
 {
     public Guid Id { get; init; }
     

@@ -1,10 +1,9 @@
-﻿using Doco.Server.Gateway.Exceptions.Users;
-using Doco.Server.Gateway.Models.Domain.Users;
-using Doco.Server.Gateway.Models.Responses.Users;
+﻿using Doco.Server.Gateway.Dal.Exceptions.Users;
+using Doco.Server.Gateway.Dal.Models.Users;
 
-namespace Doco.Server.Gateway.Services.Repositories;
+namespace Doco.Server.Gateway.Dal.Repositories;
 
-internal interface IUserRepository
+public interface IUserRepository
 {
     Task<UserToAuth?> GetAuthUserAsync(string email, CancellationToken cancellationToken);
     
@@ -13,12 +12,16 @@ internal interface IUserRepository
     /// </summary>
     /// <param name="user"></param>
     /// <param name="cancellationToken"></param>
-    /// <exception cref="UserEmailNotUniqueException"></exception>
-    /// <exception cref="UserNameNotUniqueException"></exception>
+    /// <exception cref="DbUserEmailNotUniqueException"></exception>
+    /// <exception cref="DbUserNameNotUniqueException"></exception>
     /// <returns></returns>
     Task CreateUserAsync(UserToCreate user, CancellationToken cancellationToken);
     
     Task<bool> UsersExistAsync(CancellationToken cancellationToken);
     
     Task<IEnumerable<UserDto>> GetUsersAsync(CancellationToken cancellationToken);
+
+    Task<bool> NotDeletedUserWithSessionExistsAsync(
+        Guid userId,
+        string jwtToken);
 }

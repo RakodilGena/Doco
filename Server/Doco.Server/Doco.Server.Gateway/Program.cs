@@ -8,42 +8,49 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.ConfigureMaxRequestSize()
-    .AddSwagger()
-    .AddOptions()
-    .AddServices()
-    .AddGrpcServices()
-    .AddDaemons()
-    .AddGlobalExceptionHandler();
+var inStandardMode = builder.InMigratorMode() is false;
 
-builder.Services.AddEndpointsApiExplorer();
-
-var jwtAuthConfig = builder.AddJwtAuthServices();
-
-builder.Services.AddAuthorization(o =>
+if (inStandardMode)
 {
-    o.AddPolicy(JwtAuthConfig.PolicyName, 
-        policy => policy
-            .RequireAuthenticatedUser()
-            .AddRequirements(new DocoAuthRequirement(DocoClaimTypes.UserId)));
-});
+    builder.ConfigureMaxRequestSize()
+        .AddSwagger()
+        .AddOptions()
+        .AddServices()
+        .AddGrpcServices()
+        .AddDaemons()
+        .AddGlobalExceptionHandler();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options => options.ApplyValidationParameters(jwtAuthConfig));
+    builder.Services.AddEndpointsApiExplorer();
+    
+    var jwtAuthConfig = builder.AddJwtAuthServices();
 
+    builder.Services.AddAuthorization(o =>
+    {
+        o.AddPolicy(JwtAuthConfig.PolicyName, 
+            policy => policy
+                .RequireAuthenticatedUser()
+                .AddRequirements(new DocoAuthRequirement(DocoClaimTypes.UserId)));
+    });
+    
+    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options => options.ApplyValidationParameters(jwtAuthConfig));
+}
 var app = builder.Build();
- 
-app.UseAuthentication();
-app.UseAuthorization();
+
+if (inStandardMode)
+{
+    app.UseAuthentication();
+    app.UseAuthorization();
 
 // Configure the HTTP request pipeline.
-app.UseSwagger();
+    app.UseSwagger();
 
-app.UseHttpsRedirection();
+    app.UseHttpsRedirection();
 
-app.UseGlobalExceptionHandler();
+    app.UseGlobalExceptionHandler();
 
-app.MapEndpoints();
+    app.MapEndpoints();
+}
 
 RunWithMigrate();
 return;
@@ -51,13 +58,12 @@ return;
 
 void RunWithMigrate()
 {
-    var needMigration = builder.InMigratorMode();
-    if (needMigration)
+    if (inStandardMode)
     {
-        builder.RunMigrations();
+        app.Run();
     }
     else
     {
-        app.Run();
+        Migrator.RunMigrations(builder);
     }
 }

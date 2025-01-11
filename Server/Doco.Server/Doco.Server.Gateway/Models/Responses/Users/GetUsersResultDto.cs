@@ -1,4 +1,6 @@
-﻿namespace Doco.Server.Gateway.Models.Responses.Users;
+﻿using Doco.Server.Gateway.Dal.Models.Users;
+
+namespace Doco.Server.Gateway.Models.Responses.Users;
 
 /// <summary>
 /// 

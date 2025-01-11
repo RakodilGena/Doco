@@ -1,18 +1,18 @@
-﻿using Doco.Server.Gateway.ExceptionHandlers.Models.Users;
-using Doco.Server.Gateway.Exceptions.Users;
+﻿using Doco.Server.Gateway.Dal.Exceptions.Users;
+using Doco.Server.Gateway.ExceptionHandlers.Models.Users;
 
 namespace Doco.Server.Gateway.ExceptionHandlers.Impl;
 
 internal partial class GlobalExceptionHandler
 {
-    private static partial Task HandleExUser(
-        UserExceptionBase exception,
+    private static partial Task HandleExDbUser(
+        DbUserExceptionBase exception,
         HttpContext context)
     {
         HandledUserExceptionType subType = exception switch
         {
-            UserEmailNotUniqueException => HandledUserExceptionType.EmailNotUnique,
-            UserNameNotUniqueException => HandledUserExceptionType.NameNotUnique,
+            DbUserEmailNotUniqueException => HandledUserExceptionType.EmailNotUnique,
+            DbUserNameNotUniqueException => HandledUserExceptionType.NameNotUnique,
 
             _ => HandledUserExceptionType.Unknown
         };

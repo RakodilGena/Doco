@@ -1,6 +1,6 @@
-﻿namespace Doco.Server.Gateway.Models.Domain.Users;
+﻿namespace Doco.Server.Gateway.Dal.Models.Users;
 
-internal sealed record UserToCreate(
+public sealed record UserToCreate(
     Guid Id,
     string Name,
     string Email,

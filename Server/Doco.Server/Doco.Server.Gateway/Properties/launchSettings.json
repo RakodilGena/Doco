@@ -11,6 +11,16 @@
         "SERVICE_DISCOVERY": "http://localhost:5100"
       }
     },
+    "httpSuppressSd": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:5200",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "SUPPRESS_SD": "true"
+      }
+    },
     "https": {
       "commandName": "Project",
       "dotnetRunMessages": true,

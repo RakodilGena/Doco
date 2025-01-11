@@ -1,12 +1,12 @@
 ﻿using Dapper;
 using Doco.Server.Core;
-using Doco.Server.Gateway.Exceptions.Users;
-using Doco.Server.Gateway.Models.Domain.Users;
-using Doco.Server.Gateway.Models.Responses.Users;
-using Doco.Server.Gateway.Services.DatabaseAccess;
+using Doco.Server.Gateway.Dal.Exceptions.Users;
+using Doco.Server.Gateway.Dal.Models.Users;
+using Doco.Server.Gateway.Dal.Services.DatabaseAccess;
 using UD = Doco.Server.Gateway.Dal.Descriptions.Users.UserDbDescription;
+using USD = Doco.Server.Gateway.Dal.Descriptions.Users.UserSessionDbDescription;
 
-namespace Doco.Server.Gateway.Services.Repositories.Impl;
+namespace Doco.Server.Gateway.Dal.Repositories.Impl;
 
 internal sealed class UserRepository : IUserRepository
 {
@@ -59,7 +59,6 @@ internal sealed class UserRepository : IUserRepository
 
             await using var connection = _connectionProvider.GetConnection();
 
-
             await connection.OpenAsync(cancellationToken);
 
             var cmd = new CommandDefinition(
@@ -87,11 +86,11 @@ internal sealed class UserRepository : IUserRepository
             switch (e.ConstraintName)
             {
                 case UD.IdxEmail:
-                    throw new UserEmailNotUniqueException(
+                    throw new DbUserEmailNotUniqueException(
                         "user email is not unique");
 
                 case UD.ConstrName:
-                    throw new UserNameNotUniqueException(
+                    throw new DbUserNameNotUniqueException(
                         "user name is not unique");
             }
         }
@@ -105,6 +104,35 @@ internal sealed class UserRepository : IUserRepository
         var cmd = new CommandDefinition(sql, cancellationToken: cancellationToken);
 
         await connection.OpenAsync(cancellationToken);
+        var result = await connection.ExecuteScalarAsync<bool>(cmd);
+        await connection.CloseAsync();
+
+        return result;
+    }
+
+    public async Task<bool> NotDeletedUserWithSessionExistsAsync(
+        Guid userId, 
+        string jwtToken)
+    {
+        const string sql =
+            $"""
+             SELECT EXISTS(
+                SELECT 1 FROM 
+                {UD.Table} as u JOIN {USD.Table} as us ON u.{UD.Id} = us.{USD.UserId}
+                WHERE u.{UD.Id} = @userId 
+                  AND u.{UD.DeletedAt} IS NULL
+                  AND us.{USD.JwtToken} = @jwtToken)
+             """;
+        
+        await using var connection = _connectionProvider.GetConnection();
+        var cmd = new CommandDefinition(sql,
+            parameters: new
+            {
+                userId,
+                jwtToken
+            });
+
+        await connection.OpenAsync();
         var result = await connection.ExecuteScalarAsync<bool>(cmd);
         await connection.CloseAsync();
 

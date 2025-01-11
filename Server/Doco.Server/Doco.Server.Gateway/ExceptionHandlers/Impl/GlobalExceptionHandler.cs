@@ -1,7 +1,7 @@
 ﻿using System.Net;
+using Doco.Server.Gateway.Dal.Exceptions.Users;
 using Doco.Server.Gateway.ExceptionHandlers.Models;
 using Doco.Server.Gateway.Exceptions.Auth;
-using Doco.Server.Gateway.Exceptions.Users;
 using ValidationException = FluentValidation.ValidationException;
 
 namespace Doco.Server.Gateway.ExceptionHandlers.Impl;
@@ -29,7 +29,7 @@ internal sealed partial class GlobalExceptionHandler : IGlobalExceptionHandler
         {
             ValidationException ex => HandleExValidation(ex, context),
             AuthExceptionBase ex => HandleExAuth(ex, context),
-            UserExceptionBase ex => HandleExUser(ex, context),
+            DbUserExceptionBase ex => HandleExDbUser(ex, context),
 
             _ => HandleExGlobal(exception, context)
         };
@@ -54,7 +54,7 @@ internal sealed partial class GlobalExceptionHandler : IGlobalExceptionHandler
         AuthExceptionBase exception,
         HttpContext context);
 
-    private static partial Task HandleExUser(
-        UserExceptionBase exception,
+    private static partial Task HandleExDbUser(
+        DbUserExceptionBase exception,
         HttpContext context);
 }

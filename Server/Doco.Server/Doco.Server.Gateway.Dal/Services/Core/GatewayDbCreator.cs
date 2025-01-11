@@ -1,7 +1,7 @@
 ﻿using Doco.Server.Gateway.Dal.Config;
 using Npgsql;
 
-namespace Doco.Server.Gateway.Dal.Services;
+namespace Doco.Server.Gateway.Dal.Services.Core;
 
 public static class GatewayDbCreator
 {

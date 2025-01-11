@@ -3,7 +3,7 @@ using FluentMigrator.Runner;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 
-namespace Doco.Server.Gateway.Dal.Services;
+namespace Doco.Server.Gateway.Dal.Services.Core;
 
 public static class GatewayDbMigrator
 {

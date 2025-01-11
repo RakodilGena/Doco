@@ -1,7 +1,9 @@
 ﻿using System.Transactions;
 using Doco.Server.Core.Extensions;
+using Doco.Server.Gateway.Dal.Models.Users;
+using Doco.Server.Gateway.Dal.Repositories;
 using Doco.Server.Gateway.Models.Domain.Users;
-using Doco.Server.Gateway.Services.Repositories;
+using Doco.Server.Gateway.Services.Transactions;
 using Doco.Server.PasswordEncryption;
 
 namespace Doco.Server.Gateway.Services.Users.Impl;
@@ -19,16 +21,9 @@ internal sealed class CreateUserService : ICreateUserService
         CreateUserRequestDto request,
         CancellationToken cancellationToken)
     {
-        var options = new TransactionOptions
-        {
-            IsolationLevel = IsolationLevel.Serializable,
-            Timeout = 1.Seconds()
-        };
-
-        using var tScope = new TransactionScope(
-            TransactionScopeOption.Required,
-            options,
-            TransactionScopeAsyncFlowOption.Enabled);
+        using var tScope = TransactionScopeBuilder.Build(
+            IsolationLevel.Serializable,
+            timeout: 1.Seconds());
 
         var (hashedPass, hashSalt) = PasswordEncryptor.Encrypt(request.Password);
 

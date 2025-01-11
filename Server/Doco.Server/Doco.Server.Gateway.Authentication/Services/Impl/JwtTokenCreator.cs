@@ -9,11 +9,11 @@ using Microsoft.IdentityModel.Tokens;
 namespace Doco.Server.Gateway.Authentication.Services.Impl;
 
 // ReSharper disable once InconsistentNaming
-internal sealed class JWTokenCreator : IJWTokenCreator
+internal sealed class JwtTokenCreator : IJwtTokenCreator
 {
     private readonly JwtAuthConfig _jwtConfig;
 
-    public JWTokenCreator(IOptions<JwtAuthConfig> jwtOptions)
+    public JwtTokenCreator(IOptions<JwtAuthConfig> jwtOptions)
     {
         _jwtConfig = jwtOptions.Value;
     }
