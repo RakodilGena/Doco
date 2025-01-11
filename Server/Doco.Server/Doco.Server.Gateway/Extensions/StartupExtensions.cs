@@ -5,6 +5,8 @@ using Doco.Server.Gateway.Dal.Services;
 using Doco.Server.Gateway.Endpoints.Minimal.Auth;
 using Doco.Server.Gateway.Endpoints.Minimal.Files;
 using Doco.Server.Gateway.Endpoints.Minimal.Users;
+using Doco.Server.Gateway.ExceptionHandlers;
+using Doco.Server.Gateway.ExceptionHandlers.Impl;
 using Doco.Server.Gateway.Options;
 using Doco.Server.Gateway.Services.Auth;
 using Doco.Server.Gateway.Services.Auth.Impl;
@@ -18,6 +20,7 @@ using Doco.Server.Gateway.Services.Repositories.Impl;
 using Doco.Server.Gateway.Services.Users;
 using Doco.Server.Gateway.Services.Users.Impl;
 using Doco.Server.ServiceDiscovery;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.OpenApi.Models;
 
@@ -123,6 +126,16 @@ internal static class StartupExtensions
             return builder;
 
         builder.Services.AddHostedService<ServiceDiscoveryDaemon>();
+
+        return builder;
+    }
+    
+    public static WebApplicationBuilder AddGlobalExceptionHandler(this WebApplicationBuilder builder)
+    {
+        if (builder.InMigratorMode())
+            return builder;
+
+        builder.Services.AddSingleton<IGlobalExceptionHandler, GlobalExceptionHandler>();
 
         return builder;
     }
@@ -233,5 +246,23 @@ internal static class StartupExtensions
         Console.WriteLine("Starting migrations...");
         GatewayDbMigrator.Migrate(connectionConfig);
         Console.WriteLine("Done.");
+    }
+
+    public static WebApplication UseGlobalExceptionHandler(this WebApplication app)
+    {
+        app.UseExceptionHandler(appError =>
+        {
+            appError.Run(async context =>
+            {
+                var feature = context.Features.Get<IExceptionHandlerFeature>();
+                if (feature is not null)
+                {
+                    var handler = context.RequestServices.GetRequiredService<IGlobalExceptionHandler>();
+                    await handler.HandleAsync(context, feature.Error);
+                }
+            });
+        });
+
+        return app;
     }
 }

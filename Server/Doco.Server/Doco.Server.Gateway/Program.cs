@@ -13,7 +13,8 @@ builder.ConfigureMaxRequestSize()
     .AddOptions()
     .AddServices()
     .AddGrpcServices()
-    .AddDaemons();
+    .AddDaemons()
+    .AddGlobalExceptionHandler();
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -39,6 +40,8 @@ app.UseAuthorization();
 app.UseSwagger();
 
 app.UseHttpsRedirection();
+
+app.UseGlobalExceptionHandler();
 
 app.MapEndpoints();
 
