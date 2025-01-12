@@ -3,9 +3,10 @@ using System.Transactions;
 using Doco.Server.Core.Extensions;
 using Doco.Server.Gateway.Authentication.Services;
 using Doco.Server.Gateway.Dal.Models.Sessions;
+using Doco.Server.Gateway.Dal.Models.Users;
 using Doco.Server.Gateway.Dal.Repositories;
 using Doco.Server.Gateway.Exceptions.Auth;
-using Doco.Server.Gateway.Models.Domain.Auth;
+using Doco.Server.Gateway.Models.Dtos.Auth;
 using Doco.Server.Gateway.Models.Responses.Auth;
 using Doco.Server.Gateway.Services.Transactions;
 using Doco.Server.PasswordEncryption;
@@ -21,8 +22,8 @@ internal sealed class LoginUserService : ILoginUserService
 
     public LoginUserService(
         IUserRepository userRepository,
-        IJwtTokenCreator jwtTokenCreator, 
-        IRefreshTokenCreator refreshTokenCreator, 
+        IJwtTokenCreator jwtTokenCreator,
+        IRefreshTokenCreator refreshTokenCreator,
         IUserSessionRepository userSessionRepository)
     {
         _userRepository = userRepository;
@@ -38,12 +39,34 @@ internal sealed class LoginUserService : ILoginUserService
         using var tScope = TransactionScopeBuilder.Build(
             IsolationLevel.ReadCommitted,
             timeout: 1.Seconds());
-        
+
+        var user = await FetchUserAsync(request, ct);
+
+        EnsureUserIsValid(request, user);
+
+        var (jwtToken, refreshToken) = await CreateNewSessionAsync(user, ct);
+
+        tScope.Complete();
+
+        return new LoginUserResult(jwtToken, refreshToken);
+    }
+
+    private async Task<UserToAuth> FetchUserAsync(
+        LoginUserRequestDto request,
+        CancellationToken ct)
+    {
         var user = await _userRepository.GetAuthUserAsync(request.Email, ct);
 
         if (user == null)
             ThrowInvalidCredentials();
 
+        return user;
+    }
+
+    private static void EnsureUserIsValid(
+        LoginUserRequestDto request,
+        UserToAuth user)
+    {
         var passwordValid = PasswordEncryptor.ComparePasswords(
             request.Password,
             user.HashedPassword,
@@ -54,18 +77,21 @@ internal sealed class LoginUserService : ILoginUserService
 
         if (user.DeletedAt.HasValue)
             ThrowAccessRestricted();
+    }
 
+    private async Task<(string jwtToken, string refreshToken)> CreateNewSessionAsync(
+        UserToAuth user,
+        CancellationToken ct)
+    {
         var jwtToken = _jwtTokenCreator.CreateToken(user.Id);
-        var refreshToken = _refreshTokenCreator.CreateRefreshToken();
+        var (refreshToken, expiresAt) = _refreshTokenCreator.CreateRefreshToken();
 
-        var session = new UserSessionToCreate(user.Id, jwtToken, refreshToken);
-        
+        var session = new UserSessionToCreate(user.Id, jwtToken, refreshToken, expiresAt);
+
         //todo: possible to add retries if somehow userId+refreshtoken combo already exists.
         await _userSessionRepository.AddUserSessionAsync(session, ct);
-        
-        tScope.Complete();
-        
-        return new LoginUserResult(jwtToken, refreshToken);
+
+        return (jwtToken, refreshToken);
     }
 
     [DoesNotReturn]

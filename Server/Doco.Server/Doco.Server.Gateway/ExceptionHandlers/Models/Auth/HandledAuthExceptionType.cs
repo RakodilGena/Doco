@@ -18,5 +18,10 @@ public enum HandledAuthExceptionType
     /// <summary>
     /// 
     /// </summary>
-    InvalidCredentials = 2
+    InvalidCredentials = 2,
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    UnableToRefreshSession = 3
 }

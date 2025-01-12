@@ -1,4 +1,4 @@
-﻿namespace Doco.Server.Gateway.Models.Domain.Auth;
+﻿namespace Doco.Server.Gateway.Models.Dtos.Auth;
 
 internal sealed record LoginUserRequestDto(
     string Email,

@@ -13,7 +13,8 @@ internal partial class GlobalExceptionHandler
         {
             AccountAccessRestrictedException => HandledAuthExceptionType.AccessRestricted,
             InvalidLoginCredentialsException => HandledAuthExceptionType.InvalidCredentials,
-
+            RefreshSessionException => HandledAuthExceptionType.UnableToRefreshSession,
+            
             _ => HandledAuthExceptionType.Unknown
         };
 

@@ -11,7 +11,8 @@ public sealed class UserSessions_3: Migration
         Create.Table("user_sessions")
             .WithColumn("user_id").AsGuid().NotNullable()
             .WithColumn("refresh_token").AsString().NotNullable()
-            .WithColumn("jwt_token").AsString().NotNullable();
+            .WithColumn("jwt_token").AsString().NotNullable()
+            .WithColumn("refresh_token_expires_at").AsCustom("timestamp with time zone");
         
         Create.PrimaryKey("PK_user_sessions_Id")
             .OnTable("user_sessions")

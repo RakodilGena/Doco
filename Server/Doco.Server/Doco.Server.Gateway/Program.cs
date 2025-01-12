@@ -1,4 +1,3 @@
-using Doco.Server.Gateway.Authentication;
 using Doco.Server.Gateway.Authentication.Extensions;
 using Doco.Server.Gateway.Authentication.Handlers;
 using Doco.Server.Gateway.Authentication.Options;
@@ -29,7 +28,7 @@ if (inStandardMode)
         o.AddPolicy(JwtAuthConfig.PolicyName, 
             policy => policy
                 .RequireAuthenticatedUser()
-                .AddRequirements(new DocoAuthRequirement(DocoClaimTypes.UserId)));
+                .AddRequirements(new DocoAuthRequirement(/*DocoClaimTypes.UserId*/)));
     });
     
     builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

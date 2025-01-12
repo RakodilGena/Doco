@@ -2,7 +2,7 @@
 using Doco.Server.Core.Extensions;
 using Doco.Server.Gateway.Dal.Models.Users;
 using Doco.Server.Gateway.Dal.Repositories;
-using Doco.Server.Gateway.Models.Domain.Users;
+using Doco.Server.Gateway.Models.Dtos.Users;
 using Doco.Server.Gateway.Services.Transactions;
 using Doco.Server.PasswordEncryption;
 

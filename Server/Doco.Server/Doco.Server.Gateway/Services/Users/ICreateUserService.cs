@@ -1,4 +1,4 @@
-﻿using Doco.Server.Gateway.Models.Domain.Users;
+﻿using Doco.Server.Gateway.Models.Dtos.Users;
 
 namespace Doco.Server.Gateway.Services.Users;
 

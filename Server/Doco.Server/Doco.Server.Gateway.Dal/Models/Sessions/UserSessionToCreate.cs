@@ -3,4 +3,5 @@
 public sealed record UserSessionToCreate(
     Guid UserId,
     string JwtToken,
-    string RefreshToken);
+    string RefreshToken,
+    DateTime RefreshTokenExpiresAt);

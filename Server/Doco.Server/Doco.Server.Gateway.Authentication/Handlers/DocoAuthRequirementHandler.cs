@@ -1,4 +1,5 @@
-﻿using Doco.Server.Gateway.Dal.Repositories;
+﻿using Doco.Server.Gateway.Authentication.Services;
+using Doco.Server.Gateway.Dal.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,12 +20,11 @@ public sealed class DocoAuthRequirementHandler : AuthorizationHandler<DocoAuthRe
         AuthorizationHandlerContext context,
         DocoAuthRequirement requirement)
     {
-        var requiredClaim = context.User.Claims.FirstOrDefault(c => c.Type == requirement.ClaimType);
-        if (requiredClaim is not null)
+        var tokenValuesFetcher = GetJwtTokenValuesFetcherService();
+        if (tokenValuesFetcher.IsAuthorized())
         {
-            var userId = Guid.Parse(requiredClaim.Value);
-
-            var token = GetRawJwtToken();
+            var userId = tokenValuesFetcher.FetchUserId();
+            var token = tokenValuesFetcher.FetchRawToken();
 
             var success = await CheckUserSessionIsValidAsync(userId, token);
             if (success)
@@ -32,29 +32,27 @@ public sealed class DocoAuthRequirementHandler : AuthorizationHandler<DocoAuthRe
                 context.Succeed(requirement);
                 return;
             }
-
         }
 
-        // _httpContextAccessor.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        //var requiredClaim = context.User.Claims.FirstOrDefault(c => c.Type == requirement.ClaimType);
+
         // _httpContextAccessor.HttpContext.Response.ContentType = "application/json";
         // await _httpContextAccessor.HttpContext.Response.WriteAsJsonAsync(new { StatusCode = StatusCodes.Status401Unauthorized, Message = "Unauthorized. Required admin role." });
         // await _httpContextAccessor.HttpContext.Response.CompleteAsync();
         context.Fail();
     }
 
-    private string GetRawJwtToken()
+    private IJwtTokenValuesFetcher GetJwtTokenValuesFetcherService()
     {
-        string tokenString = _httpContextAccessor.HttpContext!
-            .Request.Headers.Authorization.First()!.Split(" ").Last();
-
-        return tokenString;
+        return _httpContextAccessor.HttpContext!
+            .RequestServices.GetRequiredService<IJwtTokenValuesFetcher>();
     }
 
     private async Task<bool> CheckUserSessionIsValidAsync(Guid userId, string jwtToken)
     {
         var repo = _httpContextAccessor.HttpContext!
-            .RequestServices.GetRequiredService<IUserRepository>();
+            .RequestServices.GetRequiredService<IUserSessionRepository>();
 
-        return await repo.NotDeletedUserWithSessionExistsAsync(userId, jwtToken);
+        return await repo.UserSessionIsValidAsync(userId, jwtToken);
     }
 }

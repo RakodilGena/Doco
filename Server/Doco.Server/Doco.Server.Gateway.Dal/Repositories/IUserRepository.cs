@@ -17,11 +17,5 @@ public interface IUserRepository
     /// <returns></returns>
     Task CreateUserAsync(UserToCreate user, CancellationToken cancellationToken);
     
-    Task<bool> UsersExistAsync(CancellationToken cancellationToken);
-    
     Task<IEnumerable<UserDto>> GetUsersAsync(CancellationToken cancellationToken);
-
-    Task<bool> NotDeletedUserWithSessionExistsAsync(
-        Guid userId,
-        string jwtToken);
 }

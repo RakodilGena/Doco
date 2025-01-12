@@ -82,6 +82,8 @@ internal static class StartupExtensions
             .AddScoped<ICreateUserService, CreateUserService>()
 
             .AddScoped<ILoginUserService, LoginUserService>()
+            .AddScoped<IRefreshSessionService, RefreshSessionService>()
+            .AddScoped<ILogoutUserService, LogoutUserService>()
 
             .AddDalServices()
             .AddRepositories();

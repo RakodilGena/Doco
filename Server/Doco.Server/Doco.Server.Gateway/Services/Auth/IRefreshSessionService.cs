@@ -4,7 +4,7 @@ using Doco.Server.Gateway.Models.Responses.Auth;
 
 namespace Doco.Server.Gateway.Services.Auth;
 
-internal interface ILoginUserService
+internal interface IRefreshSessionService
 {
     /// <summary>
     /// 
@@ -12,9 +12,8 @@ internal interface ILoginUserService
     /// <param name="request"></param>
     /// <param name="ct"></param>
     /// <returns></returns>
-    /// <exception cref="InvalidLoginCredentialsException"></exception>
-    /// <exception cref="AccountAccessRestrictedException"></exception>
-    public Task<LoginUserResult> LoginUserAsync(
-        LoginUserRequestDto request, 
+    /// <exception cref="RefreshSessionException"></exception>
+    Task<LoginUserResult> RefreshSessionAsync(
+        RefreshSessionRequestDto request, 
         CancellationToken ct);
 }

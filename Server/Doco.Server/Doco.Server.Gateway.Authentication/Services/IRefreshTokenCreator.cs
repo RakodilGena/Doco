@@ -2,5 +2,5 @@
 
 public interface IRefreshTokenCreator
 {
-    public string CreateRefreshToken();
+    public (string refreshToken, DateTime expiresAt) CreateRefreshToken();
 }

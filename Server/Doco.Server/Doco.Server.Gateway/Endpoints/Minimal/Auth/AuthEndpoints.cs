@@ -11,7 +11,9 @@ internal static partial class AuthEndpoints
             .RequireAuthorization(JwtAuthConfig.PolicyName);
 
         group
-            .MapLogin();
+            .MapLogin()
+            .MapLogout()
+            .MapRefreshSession();
 
         return app;
     }

@@ -20,7 +20,7 @@ internal sealed class JwtTokenCreator : IJwtTokenCreator
 
     public string CreateToken(Guid userId)
     {
-        DateTime expirationUtc = DateTime.UtcNow.AddHours(Constants.UserTokenTTLHours);
+        DateTime expirationUtc = DateTime.UtcNow.AddHours(Constants.JwtTokenTTLHours);
 
         var token = CreateJwtToken(userId, expirationUtc);
 

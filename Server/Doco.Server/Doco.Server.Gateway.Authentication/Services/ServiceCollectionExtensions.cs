@@ -21,7 +21,8 @@ public static class ServiceCollectionExtensions
         builder.Services
             .AddScoped<IJwtTokenCreator, JwtTokenCreator>()
             .AddSingleton<IRefreshTokenCreator, RefreshTokenCreator>()
-            .AddSingleton<IAuthorizationHandler, DocoAuthRequirementHandler>();
+            .AddSingleton<IAuthorizationHandler, DocoAuthRequirementHandler>()
+            .AddScoped<IJwtTokenValuesFetcher, JwtTokenValuesFetcher>();
         
         var jwtSection = builder.Configuration.GetSection(JwtAuthConfig.SectionName);
         var jwtAuthConfig = jwtSection.Get<JwtAuthConfig>();

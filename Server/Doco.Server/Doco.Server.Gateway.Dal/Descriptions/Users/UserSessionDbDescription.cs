@@ -9,4 +9,6 @@ public static class UserSessionDbDescription
     public const string RefreshToken = "refresh_token";
     
     public const string JwtToken = "jwt_token";
+    
+    public const string RefreshTokenExpiresAt = "refresh_token_expires_at";
 }

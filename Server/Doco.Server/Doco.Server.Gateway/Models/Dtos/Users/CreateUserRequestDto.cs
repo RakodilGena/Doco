@@ -1,4 +1,4 @@
-﻿namespace Doco.Server.Gateway.Models.Domain.Users;
+﻿namespace Doco.Server.Gateway.Models.Dtos.Users;
 
 internal sealed record CreateUserRequestDto(
     string Email,

@@ -1,4 +1,4 @@
-﻿using Doco.Server.Gateway.Models.Domain.Auth;
+﻿using Doco.Server.Gateway.Models.Dtos.Auth;
 using Doco.Server.Gateway.Models.Requests.Auth;
 
 namespace Doco.Server.Gateway.Mappers;
