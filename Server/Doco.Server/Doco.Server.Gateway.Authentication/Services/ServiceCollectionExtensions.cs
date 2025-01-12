@@ -3,14 +3,13 @@ using Doco.Server.Gateway.Authentication.Options;
 using Doco.Server.Gateway.Authentication.Services.Impl;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Doco.Server.Gateway.Authentication.Services;
 
-public static class ServiceCollectionExtensions
+internal static class ServiceCollectionExtensions
 {
-    public static JwtAuthConfig AddJwtAuthServices(
+    public static WebApplicationBuilder AddJwtAuthServices(
         this WebApplicationBuilder builder)
     {
         builder.Services.AddOptions<JwtAuthConfig>()
@@ -21,11 +20,8 @@ public static class ServiceCollectionExtensions
         builder.Services
             .AddScoped<IJwtTokenCreator, JwtTokenCreator>()
             .AddSingleton<IRefreshTokenCreator, RefreshTokenCreator>()
-            .AddSingleton<IAuthorizationHandler, DocoAuthRequirementHandler>()
             .AddScoped<IJwtTokenValuesFetcher, JwtTokenValuesFetcher>();
-        
-        var jwtSection = builder.Configuration.GetSection(JwtAuthConfig.SectionName);
-        var jwtAuthConfig = jwtSection.Get<JwtAuthConfig>();
-        return jwtAuthConfig!;
+
+        return builder;
     }
 }

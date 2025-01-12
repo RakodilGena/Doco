@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Doco.Server.Gateway.Authentication.Handlers;
 
-public sealed class DocoAuthRequirementHandler : AuthorizationHandler<DocoAuthRequirement>
+internal sealed class DocoAuthRequirementHandler : AuthorizationHandler<DocoAuthRequirement>
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 

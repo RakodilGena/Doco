@@ -4,7 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Doco.Server.Gateway.Authentication.Extensions;
 
-public static class JwtBearerOptionsExtensions
+internal static class JwtBearerOptionsExtensions
 {
     public static void ApplyValidationParameters(
         this JwtBearerOptions options,
@@ -14,12 +14,12 @@ public static class JwtBearerOptionsExtensions
         {
             ValidateIssuer = true,
             ValidIssuer = jwtAuthConfig.Issuer,
-            
+
             ValidateAudience = true,
             ValidAudience = jwtAuthConfig.Audience,
-            
+
             ValidateLifetime = true,
-            
+
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = jwtAuthConfig.GetSymmetricSecurityKey()
         };
