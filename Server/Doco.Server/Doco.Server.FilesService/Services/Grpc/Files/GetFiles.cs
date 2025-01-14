@@ -1,28 +1,14 @@
 ﻿using FileService;
-using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using File = FileService.File;
 
-namespace Doco.Server.FilesService.Services.Grpc;
+namespace Doco.Server.FilesService.Services.Grpc.Files;
 
-internal sealed class FileServiceImpl : FileService.FileService.FileServiceBase
+internal partial class FileServiceImpl
 {
-    public override Task DownloadFile(
-        DownloadFileRequest request,
-        IServerStreamWriter<DownloadFileChunk> responseStream,
+    public override partial Task<GetFilesReply> GetFiles(
+        GetFilesRequest request,
         ServerCallContext context)
-    {
-        return base.DownloadFile(request, responseStream, context);
-    }
-
-    public override Task<Empty> UploadFile(
-        IAsyncStreamReader<UploadFileChunk> requestStream,
-        ServerCallContext context)
-    {
-        return base.UploadFile(requestStream, context);
-    }
-
-    public override Task<GetFilesReply> GetFiles(GetFilesRequest request, ServerCallContext context)
     {
         return Task.FromResult(
             new GetFilesReply

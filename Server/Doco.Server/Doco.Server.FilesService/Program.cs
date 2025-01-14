@@ -1,10 +1,13 @@
 using Doco.Server.FilesService.Extensions;
-using Doco.Server.FilesService.Services.Grpc;
+using Doco.Server.FilesService.Services.Grpc.Files;
+using Doco.Server.FilesService.Services.Internal;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddOptions();
+
+builder.AddServices();
 
 builder.WebHost.ConfigureKestrel(options =>
 {

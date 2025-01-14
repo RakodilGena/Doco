@@ -1,7 +1,5 @@
-﻿using Doco.Server.Gateway.Authentication.Handlers;
-using Doco.Server.Gateway.Authentication.Options;
+﻿using Doco.Server.Gateway.Authentication.Options;
 using Doco.Server.Gateway.Authentication.Services.Impl;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
