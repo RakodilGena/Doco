@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
-using Doco.Server.Gateway.Dal.Config;
-using Doco.Server.Gateway.Dal.Services.Core;
+using Doco.Server.FileService.Dal.Config;
+using Doco.Server.FileService.Dal.Services.Core;
 
-namespace Doco.Server.Gateway.Extensions;
+namespace Doco.Server.FileService.Extensions;
 
 internal static class Migrator
 {

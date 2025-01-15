@@ -1,6 +1,6 @@
 ﻿using Doco.Server.Gateway.Exceptions.ServiceDiscovery;
 using Doco.Server.Gateway.Models.Responses.Files;
-using FileService;
+using FilesGrpc;
 using Grpc.Core;
 using Grpc.Net.Client;
 
@@ -23,7 +23,7 @@ internal sealed class DownloadFileService : IDownloadFileService
 
         using var channel = GrpcChannel.ForAddress(serviceUrl);
 
-        var client = new FileServiceClient(channel);
+        var client = new FilesGrpcService.FilesGrpcServiceClient(channel);
 
         var result = await DownloadFileAsync(fileId, client, ct);
 
@@ -32,7 +32,7 @@ internal sealed class DownloadFileService : IDownloadFileService
 
     private static async Task<FileDownloadResultDto> DownloadFileAsync(
         Guid fileId,
-        FileServiceClient client,
+        FilesGrpcService.FilesGrpcServiceClient client,
         CancellationToken ct)
     {
         try

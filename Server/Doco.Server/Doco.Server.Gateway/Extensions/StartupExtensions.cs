@@ -49,7 +49,7 @@ internal static class StartupExtensions
 
         #endregion
 
-        #region connectionConfig
+        #region db connection config
 
         {
             var connectionConfigSection = builder.Configuration.GetSection(PostgreSqlConnectionConfig.SectionName);

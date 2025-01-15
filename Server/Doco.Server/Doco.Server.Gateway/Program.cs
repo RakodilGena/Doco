@@ -19,6 +19,7 @@ if (inStandardMode)
 
     builder.AddCustomJwtAuthentication();
 }
+
 var app = builder.Build();
 
 if (inStandardMode)

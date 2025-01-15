@@ -1,6 +1,5 @@
 ﻿namespace Doco.Server.Gateway.Models.Requests.Auth;
 
-//todo: add validation
 /// <summary>
 /// 
 /// </summary>

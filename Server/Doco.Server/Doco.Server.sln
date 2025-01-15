@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doco.Server.ServiceDiscover
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doco.Server.GrpcContracts", "Doco.Server.GrpcContracts\Doco.Server.GrpcContracts.csproj", "{3A5AE8C5-D8AD-4CCF-A4D2-5A595EC97A61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doco.Server.FilesService", "Doco.Server.FilesService\Doco.Server.FilesService.csproj", "{F9415E98-BAD6-4FCA-A2F2-9891BFEB1589}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doco.Server.FileService", "Doco.Server.FileService\Doco.Server.FileService.csproj", "{F9415E98-BAD6-4FCA-A2F2-9891BFEB1589}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doco.Server.Core", "Doco.Server.Core\Doco.Server.Core.csproj", "{E350D2AA-54AB-404B-BB3D-4F5B4829502D}"
 EndProject
@@ -23,11 +23,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Auxiliary", "Auxiliary", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{0DCC4A74-8BBB-40A8-BB4B-9D7F6C5EB42D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FilesService", "FilesService", "{6CFA3086-9327-4621-88C6-9D38420C52D4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FileService", "FileService", "{6CFA3086-9327-4621-88C6-9D38420C52D4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceDiscovery", "ServiceDiscovery", "{CCDA9475-ADF1-4108-9920-1F70AAB1A485}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doco.Server.Gateway.Authentication", "Doco.Server.Gateway.Authentication\Doco.Server.Gateway.Authentication.csproj", "{32FF9749-B6D3-45FA-89AE-A704668BF5AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doco.Server.FileService.Dal", "Doco.Server.FileService.Dal\Doco.Server.FileService.Dal.csproj", "{5A8B1A67-36A4-455E-B99A-A3044F998A57}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +69,10 @@ Global
 		{32FF9749-B6D3-45FA-89AE-A704668BF5AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32FF9749-B6D3-45FA-89AE-A704668BF5AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32FF9749-B6D3-45FA-89AE-A704668BF5AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A8B1A67-36A4-455E-B99A-A3044F998A57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A8B1A67-36A4-455E-B99A-A3044F998A57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A8B1A67-36A4-455E-B99A-A3044F998A57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A8B1A67-36A4-455E-B99A-A3044F998A57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D39AB65D-710C-4B6A-9742-93A0E3C8C274} = {35E72E03-D055-4BCE-9686-E79F3851BD6D}
@@ -77,5 +83,6 @@ Global
 		{82D61DE3-C582-4D55-A088-FFCCFCE6566E} = {CCDA9475-ADF1-4108-9920-1F70AAB1A485}
 		{F9415E98-BAD6-4FCA-A2F2-9891BFEB1589} = {6CFA3086-9327-4621-88C6-9D38420C52D4}
 		{32FF9749-B6D3-45FA-89AE-A704668BF5AA} = {0DCC4A74-8BBB-40A8-BB4B-9D7F6C5EB42D}
+		{5A8B1A67-36A4-455E-B99A-A3044F998A57} = {6CFA3086-9327-4621-88C6-9D38420C52D4}
 	EndGlobalSection
 EndGlobal

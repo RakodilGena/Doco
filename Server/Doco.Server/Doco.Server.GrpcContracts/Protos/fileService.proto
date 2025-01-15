@@ -3,9 +3,9 @@
 import 'google/protobuf/empty.proto';
 import 'google/protobuf/wrappers.proto';
 
-package fileService;
+package filesGrpc;
 
-service FileService {
+service FilesGrpcService {
   
   rpc DownloadFile(DownloadFileRequest) returns (stream DownloadFileChunk);
   

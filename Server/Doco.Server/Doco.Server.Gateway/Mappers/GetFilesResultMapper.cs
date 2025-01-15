@@ -1,6 +1,6 @@
 ﻿using Doco.Server.Gateway.Models.Responses.Files;
-using FileService;
-using File = FileService.File;
+using FilesGrpc;
+using File = FilesGrpc.File;
 
 namespace Doco.Server.Gateway.Mappers;
 

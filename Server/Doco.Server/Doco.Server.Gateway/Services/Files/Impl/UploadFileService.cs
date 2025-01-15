@@ -1,6 +1,6 @@
 ﻿using Doco.Server.Core;
 using Doco.Server.Gateway.Exceptions.ServiceDiscovery;
-using FileService;
+using FilesGrpc;
 using Google.Protobuf;
 using Grpc.Core;
 using Grpc.Net.Client;
@@ -27,7 +27,7 @@ internal sealed class UploadFileService : IUploadFileService
 
         using var channel = GrpcChannel.ForAddress(serviceUrl);
 
-        var client = new FileServiceClient(channel);
+        var client = new FilesGrpcService.FilesGrpcServiceClient(channel);
 
         foreach (var file in files)
         {
@@ -38,7 +38,7 @@ internal sealed class UploadFileService : IUploadFileService
     private async Task UploadFileAsync(
         Guid? folderId,
         IFormFile file,
-        FileServiceClient fileServiceClient,
+        FilesGrpcService.FilesGrpcServiceClient fileServiceClient,
         CancellationToken ct)
     {
         try

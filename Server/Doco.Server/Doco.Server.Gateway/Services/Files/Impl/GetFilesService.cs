@@ -1,7 +1,7 @@
 ﻿using Doco.Server.Gateway.Exceptions.ServiceDiscovery;
 using Doco.Server.Gateway.Mappers;
 using Doco.Server.Gateway.Models.Responses.Files;
-using FileService;
+using FilesGrpc;
 using Grpc.Core;
 using Grpc.Net.Client;
 
@@ -24,7 +24,7 @@ internal sealed class GetFilesService : IGetFilesService
 
         using var channel = GrpcChannel.ForAddress(serviceUrl);
 
-        var client = new FileServiceClient(channel);
+        var client = new FilesGrpcService.FilesGrpcServiceClient(channel);
 
         var result = await GetFilesAsync(folderId, client, ct);
 
@@ -33,7 +33,7 @@ internal sealed class GetFilesService : IGetFilesService
 
     private static async Task<GetFilesResultDto> GetFilesAsync(
         Guid? folderId,
-        FileServiceClient client,
+        FilesGrpcService.FilesGrpcServiceClient client,
         CancellationToken ct)
     {
         try

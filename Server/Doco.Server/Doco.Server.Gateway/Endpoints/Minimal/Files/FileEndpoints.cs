@@ -1,5 +1,4 @@
-﻿global using FileServiceClient = FileService.FileService.FileServiceClient;
-using Doco.Server.Gateway.Authentication.Options;
+﻿using Doco.Server.Gateway.Authentication.Options;
 
 namespace Doco.Server.Gateway.Endpoints.Minimal.Files;
 

@@ -27,6 +27,11 @@ public sealed class Initial_1 : Migration
             .Ascending()
             .WithOptions().Unique();
         
+        Create.Index("idx_user_created_at")
+            .OnTable("users")
+            .OnColumn("created_at")
+            .Descending();
+        
         Create.UniqueConstraint("constraint_user_name")
             .OnTable("users")
             .Columns("name");
